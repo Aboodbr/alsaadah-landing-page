@@ -1,192 +1,110 @@
 <?php
-require_once 'config/database.php';
+require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/app/Models/Product.php';
 
-// التحقق من وجود رقم المنتج في الرابط
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     header('Location: products.php');
     exit;
 }
 
-$product_id = intval($_GET['id']);
+$product_id = (int)$_GET['id'];
+$product = Product::getById($pdo, $product_id);
 
-// جلب تفاصيل المنتج مع اسم القسم
-$stmt = $pdo->prepare("
-    SELECT p.*, c.name_ar as cat_name_ar, c.name_en as cat_name_en 
-    FROM products p 
-    JOIN categories c ON p.category_id = c.id 
-    WHERE p.id = ?
-");
-$stmt->execute([$product_id]);
-$product = $stmt->fetch();
-
-// إذا كان المنتج غير موجود، أعد توجيهه لصفحة المنتجات
 if (!$product) {
     header('Location: products.php');
     exit;
 }
 
-// جلب بيانات التعبئة الخاصة بالمنتج
-$stmtPacks = $pdo->prepare("SELECT * FROM product_packaging WHERE product_id = ?");
-$stmtPacks->execute([$product_id]);
-$packagings = $stmtPacks->fetchAll();
+$packagings = Product::getPackaging($pdo, $product_id);
+
+$pageTitle = 'Front | ' . $product['name_ar'];
+$activeNav = 'products';
+
+$pageHeaderTitleAr = $product['name_ar'];
+$pageHeaderTitleEn = $product['name_en'];
+$pageHeaderDescAr = 'مواصفات وتفاصيل التعبئة الخاصة بالمنتج';
+$pageHeaderDescEn = 'Product specifications and packaging details';
+
+include_once __DIR__ . '/resources/views/layouts/header.php';
+include_once __DIR__ . '/resources/views/layouts/page-header.php';
 ?>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($product['name_ar']) ?> - Al Saadah</title>
-    <link rel="icon" type="image/png" href="images/ui/logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <style>
-        .product-details-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 4rem;
-            align-items: start;
-            margin-top: 100px;
-        }
-        .details-image-box {
-            background: var(--clr-surface);
-            padding: 3rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow-md);
-            text-align: center;
-        }
-        .details-image-box img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-        .details-info-box h1 {
-            font-size: 2.5rem;
-            color: var(--clr-primary);
-            margin: 1rem 0;
-        }
-        .details-desc {
-            font-size: 1.2rem;
-            color: var(--clr-text-light);
-            line-height: 1.8;
-            margin-bottom: 2rem;
-        }
-        .table-responsive {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            box-shadow: var(--shadow-sm);
-            border-radius: 8px;
-        }
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            color: var(--clr-text-light);
-            font-weight: 600;
-            transition: var(--transition);
-        }
-        .back-btn:hover {
-            color: var(--clr-primary);
-        }
-        @media (max-width: 768px) {
-            .product-details-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-                margin-top: 80px;
-            }
-            .details-info-box h1 {
-                font-size: 2rem;
-            }
-            .details-image-box {
-                padding: 1.5rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    
-    <!-- Navbar (نفس النافبار الخاص بموقعك) -->
-    <header class="navbar" id="navbar">
-        <div class="container nav-container">
-            <div class="logo">
-                <a href="index.php"><img src="images/ui/logo.png" alt="Logo" style="height: 60px; object-fit: contain;"></a>
-            </div>
-            <nav class="nav-links">
-                <a href="index.php" data-i18n="nav_home">الرئيسية</a>
-                <a href="products.php" class="active" data-i18n="nav_products">المنتجات</a>
-                <a href="about.php" data-i18n="nav_about">من نحن</a>
-                <a href="gallery.php" data-i18n="nav_gallery">المعرض</a>
-                <a href="contact.php" data-i18n="nav_contact">اتصل بنا</a>
-            </nav>
-            <div class="nav-actions">
-                <button id="langSwitcher" class="lang-btn">English</button>
-            </div>
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            </button>
-        </div>
-    </header>
 
-    <section class="section-padding">
-        <div class="container">
-            <a href="products.php" class="back-btn">
-                <span>&rarr;</span> <span data-i18n="btn_back">العودة للمنتجات</span>
-            </a>
-            
-            <div class="product-details-grid">
-                <!-- صورة المنتج -->
-                <div class="details-image-box">
-                    <img src="<?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['name_ar']) ?>">
-                </div>
-                
-                <!-- تفاصيل المنتج -->
-                <div class="details-info-box">
-                    <span class="category-tag">
-                        <span class="lang-ar"><?= htmlspecialchars($product['cat_name_ar']) ?></span>
-                        <span class="lang-en"><?= htmlspecialchars($product['cat_name_en']) ?></span>
-                    </span>
-                    
-                    <h1>
-                        <span class="lang-ar"><?= htmlspecialchars($product['name_ar']) ?></span>
-                        <span class="lang-en"><?= htmlspecialchars($product['name_en']) ?></span>
-                    </h1>
-                    
-                    <p class="details-desc">
-                        <span class="lang-ar"><?= htmlspecialchars($product['description_ar'] ?? '') ?></span>
-                        <span class="lang-en"><?= htmlspecialchars($product['description_en'] ?? '') ?></span>
-                    </p>
+<section class="neo-section">
+    <div class="neo-veggie-field" aria-hidden="true"><span>🥕</span><span>🥦</span><span>🍅</span><span>🫑</span><span>🥬</span><span>🌽</span><span>🍆</span><span>🥑</span></div>
+    <div class="container">
+        <a href="products.php" class="neo-text-link" style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 30px;">
+            <span>←</span> <span class="lang-ar">العودة لجميع المنتجات</span><span class="lang-en">Back to all products</span>
+        </a>
 
-                    <!-- جدول التعبئة -->
-                    <?php if (count($packagings) > 0): ?>
-                    <div class="table-responsive">
-                        <table class="product-table">
+        <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 40px; align-items: start;">
+            <!-- Product Image Glass Card -->
+            <div class="neo-glass-card neo-reveal" style="text-align: center; padding: 20px;">
+                <img src="<?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['name_ar']) ?>" style="border-radius: 20px; width: 100%; max-height: 480px; object-fit: contain; background: #fff; padding: 15px;">
+            </div>
+
+            <!-- Product Details Information -->
+            <div class="neo-reveal" style="background: #fff; padding: 35px; border-radius: 28px; border: 1px solid rgba(15, 76, 35, 0.09); box-shadow: var(--neo-shadow-sm);">
+                <span class="neo-eyebrow">
+                    <span class="lang-ar"><?= htmlspecialchars($product['cat_name_ar']) ?></span>
+                    <span class="lang-en"><?= htmlspecialchars($product['cat_name_en']) ?></span>
+                </span>
+
+                <h2 style="font-size: 2.2rem; color: var(--neo-green); margin: 10px 0 20px; font-weight: 900;">
+                    <span class="lang-ar"><?= htmlspecialchars($product['name_ar']) ?></span>
+                    <span class="lang-en"><?= htmlspecialchars($product['name_en']) ?></span>
+                </h2>
+
+                <p style="font-size: 1.1rem; line-height: 1.9; color: var(--neo-muted); margin-bottom: 30px;">
+                    <span class="lang-ar"><?= htmlspecialchars($product['description_ar'] ?? 'منتج فاخر مصنع وفق أعلى معايير الجودة والسلامة الغذائية.') ?></span>
+                    <span class="lang-en"><?= htmlspecialchars($product['description_en'] ?? 'Premium quality product manufactured according to the highest international safety standards.') ?></span>
+                </p>
+
+                <!-- Packaging Table -->
+                <?php if (count($packagings) > 0): ?>
+                    <h3 style="font-size: 1.3rem; color: var(--neo-green); font-weight: 900; margin-bottom: 15px;">
+                        <span class="lang-ar">جدول التعبئة والتغليف</span>
+                        <span class="lang-en">Packaging Details</span>
+                    </h3>
+                    <div class="neo-table-wrapper">
+                        <table class="neo-table">
                             <thead>
                                 <tr>
-                                    <th data-i18n="tbl_weight">الوزن</th>
-                                    <th data-i18n="tbl_pack">العبوة</th>
-                                    <th data-i18n="tbl_qty">التعبئة</th>
-                                    <th data-i18n="tbl_gross">القائم</th>
+                                    <th><span class="lang-ar">الوزن</span><span class="lang-en">Weight</span></th>
+                                    <th><span class="lang-ar">نوع العبوة</span><span class="lang-en">Package Type</span></th>
+                                    <th><span class="lang-ar">التعبئة</span><span class="lang-en">Quantity</span></th>
+                                    <th><span class="lang-ar">الوزن القائم</span><span class="lang-en">Gross Weight</span></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($packagings as $pack): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($pack['weight']) ?></td>
-                                    <td><span class="lang-ar"><?= htmlspecialchars($pack['package_type_ar']) ?></span><span class="lang-en"><?= htmlspecialchars($pack['package_type_en']) ?></span></td>
-                                    <td><span class="lang-ar"><?= htmlspecialchars($pack['quantity_ar']) ?></span><span class="lang-en"><?= htmlspecialchars($pack['quantity_en']) ?></span></td>
-                                    <td><?= htmlspecialchars($pack['gross_weight']) ?></td>
-                                </tr>
+                                    <tr>
+                                        <td><?= htmlspecialchars($pack['weight']) ?></td>
+                                        <td>
+                                            <span class="lang-ar"><?= htmlspecialchars($pack['package_type_ar']) ?></span>
+                                            <span class="lang-en"><?= htmlspecialchars($pack['package_type_en']) ?></span>
+                                        </td>
+                                        <td>
+                                            <span class="lang-ar"><?= htmlspecialchars($pack['quantity_ar']) ?></span>
+                                            <span class="lang-en"><?= htmlspecialchars($pack['quantity_en']) ?></span>
+                                        </td>
+                                        <td><?= htmlspecialchars($pack['gross_weight']) ?></td>
+                                    </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
-                    <?php endif; ?>
+                <?php endif; ?>
+
+                <div style="margin-top: 30px;">
+                    <a href="contact.php?subject=Inquiry regarding <?= urlencode($product['name_en']) ?>" class="neo-btn">
+                        <span class="lang-ar">اطلب هذا المنتج الآن</span>
+                        <span class="lang-en">Inquire About Product</span>
+                        <i>↙</i>
+                    </a>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <?php include 'footer.php'; ?>
-    <script src="assets/js/script.js"></script>
-</body>
-</html>
+<?php include_once __DIR__ . '/resources/views/layouts/footer.php'; ?>

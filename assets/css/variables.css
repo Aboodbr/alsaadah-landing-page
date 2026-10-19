@@ -1,0 +1,13 @@
+:root {
+    --neo-green: var(--clr-primary, #0F4C23);
+    --neo-accent: var(--clr-accent, #C9A45C);
+    --neo-secondary: var(--clr-secondary, #2E7D45);
+    --neo-cream: var(--clr-bg, #F7F8F4);
+    --neo-ink: var(--clr-text, #18231B);
+    --neo-muted: var(--clr-text-light, #69756C);
+    --neo-shadow: 0 28px 70px rgba(15, 76, 35, 0.16);
+    --neo-shadow-sm: 0 12px 35px rgba(15, 76, 35, 0.08);
+    --neo-radius: 28px;
+    --neo-radius-sm: 16px;
+    --neo-transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}

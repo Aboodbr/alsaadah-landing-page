@@ -1,85 +1,110 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Front - Contact Us</title>
-    <link rel="icon" type="image/png" href="images/ui/logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/styles.css">
-</head>
-<body>
-    <div id="preloader" style="position: fixed; inset: 0; background: var(--clr-bg); z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease;">
-        <img src="images/ui/logo.png" alt="Loading" style="width: 150px; animation: pulse-green 1.5s infinite;">
-    </div>
+<?php
+require_once __DIR__ . '/config/database.php';
 
-    <header class="navbar" id="navbar">
-        <div class="container nav-container">
-            <div class="logo">
-                <a href="index.php"><img src="images/ui/logo.png" alt="Logo" style="height: 60px; object-fit: contain;"></a>
-            </div>
-            <nav class="nav-links">
-                <a href="index.php" data-i18n="nav_home">الرئيسية</a>
-                <a href="products.php" data-i18n="nav_products">المنتجات</a>
-                <a href="about.php" data-i18n="nav_about">من نحن</a>
-                <a href="gallery.php" data-i18n="nav_gallery">المعرض</a>
-                <a href="contact.php" class="active" data-i18n="nav_contact">اتصل بنا</a>
-            </nav>
-                    <!-- زر القائمة للجوال -->
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </button>
-            <div class="nav-actions">
-                <button id="langSwitcher" class="lang-btn">English</button>
-            </div>
-        </div>
-    </header>
+$pageTitle = 'Front | تواصل معنا';
+$activeNav = 'contact';
 
-    <section class="page-header" style="background-image: linear-gradient(rgba(15, 76, 35, 0.9), rgba(15, 76, 35, 0.9)), url('images/banners/contact-cover.jpg'); padding: 6rem 0; margin-top: 80px;" data-aos="fade-down">
-        <div class="container text-center">
-            <h2 data-i18n="contact_page_title" style="color: var(--clr-accent); font-size: 3rem; margin-bottom: 1rem;">تواصل معنا</h2>
-            <p data-i18n="contact_page_desc" style="color: white; font-size: 1.2rem;">نحن هنا للإجابة على استفساراتكم وتلبية طلباتكم.</p>
-        </div>
-    </section>
+$pageHeaderTitleAr = 'تواصل معنا';
+$pageHeaderTitleEn = 'Get in Touch';
+$pageHeaderDescAr = 'نحن هنا للإجابة على استفساراتكم وبناء شراكات ناجحة ومستدامة.';
+$pageHeaderDescEn = 'We are here to answer your inquiries and build successful, sustainable partnerships.';
 
-    <section class="contact-section section-padding">
-        <div class="container">
-            <div class="contact-grid">
-                
-                <div class="contact-info-card" data-aos="fade-left">
-                    <h3 data-i18n="contact_info_title" class="text-primary mb-4">معلومات التواصل</h3>
-                    <p data-i18n="contact_info_desc" class="mb-4">يسعدنا تواصلكم معنا عبر القنوات التالية أو من خلال زيارة مقرنا الرئيسي.</p>
-                    
-                    <div class="info-item"><div class="info-icon">📍</div><div><h4 data-i18n="lbl_address">العنوان</h4><p data-i18n="val_address">مدينة العاشر من رمضان
-المنطقة الصناعية C5، مصر</p></div></div>
-                    <div class="info-item"><div class="info-icon">📞</div><div><h4 data-i18n="lbl_phone">رقم الهاتف</h4><p dir="ltr">+20 110 488 2192</p></div></div>
-                    <div class="info-item"><div class="info-icon">✉️</div><div><h4 data-i18n="lbl_email">البريد الإلكتروني</h4><p>info@alsaadahfood.com</p></div></div>
-                </div>
+$defaultSubject = isset($_GET['subject']) ? trim($_GET['subject']) : '';
 
-                <div class="contact-form-wrapper shadow-lg rounded-img" style="border-radius: 12px;" data-aos="fade-right">
-                    <h3 data-i18n="form_title" class="text-primary mb-4">أرسل لنا رسالة</h3>
-                    <form id="contactForm" class="contact-form">
-                        <div class="form-group"><label data-i18n="lbl_name">الاسم الكامل</label><input type="text" name="name" required></div>
-                        <div class="form-row">
-                            <div class="form-group"><label data-i18n="lbl_email_input">البريد الإلكتروني</label><input type="email" name="email" required></div>
-                            <div class="form-group"><label data-i18n="lbl_phone_input">رقم الهاتف</label><input type="tel" name="phone" required></div>
+include_once __DIR__ . '/resources/views/layouts/header.php';
+include_once __DIR__ . '/resources/views/layouts/page-header.php';
+?>
+
+<section class="neo-section">
+    <div class="neo-veggie-field" aria-hidden="true"><span>🥕</span><span>🥦</span><span>🍅</span><span>🫑</span><span>🥬</span><span>🌽</span><span>🍆</span><span>🥑</span></div>
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 45px; align-items: start;">
+            <!-- Contact Form Card -->
+            <div class="neo-reveal" style="background: #fff; padding: 40px; border-radius: 28px; border: 1px solid rgba(15, 76, 35, 0.09); box-shadow: var(--neo-shadow-sm);">
+                <span class="neo-eyebrow">
+                    <span class="lang-ar">أرسل لنا رسالة</span>
+                    <span class="lang-en">SEND US A MESSAGE</span>
+                </span>
+                <h2 style="font-size: 2rem; color: var(--neo-green); font-weight: 900; margin: 10px 0 25px;">
+                    <span class="lang-ar">يسعدنا تواصلك معنا دائماً</span>
+                    <span class="lang-en">We'd Love to Hear From You</span>
+                </h2>
+
+                <form id="neoContactForm" method="POST">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+                        <div class="neo-form-group">
+                            <label for="name"><span class="lang-ar">الاسم الكامل *</span><span class="lang-en">Full Name *</span></label>
+                            <input type="text" id="name" name="name" class="neo-input" required placeholder="أدخل اسمك الكامل">
                         </div>
-                        <div class="form-group"><label data-i18n="lbl_subject">الموضوع</label><input type="text" name="subject" required></div>
-                        <div class="form-group"><label data-i18n="lbl_message">الرسالة</label><textarea rows="4" name="message" required></textarea></div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_send">إرسال الرسالة</button>
-                        <div id="formMessage" class="form-message hidden" style="margin-top: 15px;"></div>
-                    </form>
+                        <div class="neo-form-group">
+                            <label for="email"><span class="lang-ar">البريد الإلكتروني *</span><span class="lang-en">Email Address *</span></label>
+                            <input type="email" id="email" name="email" class="neo-input" required placeholder="name@example.com">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+                        <div class="neo-form-group">
+                            <label for="phone"><span class="lang-ar">رقم الهاتف / الواتساب</span><span class="lang-en">Phone / WhatsApp</span></label>
+                            <input type="tel" id="phone" name="phone" class="neo-input" placeholder="+20 110 000 0000">
+                        </div>
+                        <div class="neo-form-group">
+                            <label for="subject"><span class="lang-ar">الموضوع</span><span class="lang-en">Subject</span></label>
+                            <input type="text" id="subject" name="subject" class="neo-input" value="<?= htmlspecialchars($defaultSubject) ?>" placeholder="موضوع الرسالة">
+                        </div>
+                    </div>
+
+                    <div class="neo-form-group">
+                        <label for="message"><span class="lang-ar">نص الرسالة *</span><span class="lang-en">Your Message *</span></label>
+                        <textarea id="message" name="message" class="neo-input" rows="5" required placeholder="اكتب استفسارك أو طلبك هنا..."></textarea>
+                    </div>
+
+                    <button type="submit" class="neo-btn" style="width: 100%;">
+                        <span class="lang-ar">إرسال الرسالة الآن</span>
+                        <span class="lang-en">Send Message Now</span>
+                        <i>↙</i>
+                    </button>
+
+                    <div id="formResponse" style="margin-top: 15px;"></div>
+                </form>
+            </div>
+
+            <!-- Branch Details & Direct Contact Info -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <div class="neo-reveal" style="background: var(--neo-green); color: #fff; padding: 35px; border-radius: 28px; box-shadow: var(--neo-shadow);">
+                    <span class="neo-eyebrow" style="color: var(--neo-accent);">🇪🇬 <span class="lang-ar">المركز الرئيسي والمصنع</span><span class="lang-en">HEAD OFFICE & FACTORY</span></span>
+                    <h3 style="font-size: 1.5rem; color: #fff; font-weight: 900; margin: 10px 0 15px;">
+                        <span class="lang-ar">جمهورية مصر العربية</span>
+                        <span class="lang-en">Egypt Branch</span>
+                    </h3>
+                    <p style="color: rgba(255,255,255,0.85); line-height: 1.8; margin-bottom: 20px;">
+                        <span class="lang-ar">الشرقية – مدينة العاشر من رمضان<br>المنطقة الصناعية C5، قطعة 19</span>
+                        <span class="lang-en">Al-Sharqia – 10th of Ramadan City<br>Industrial Zone C5, Plot 19</span>
+                    </p>
+                    <p dir="ltr" style="font-size: 1.1rem; font-weight: 800; color: var(--neo-accent); margin-bottom: 8px;">
+                        📞 +20 110 488 2192 | +20 102 811 6220
+                    </p>
+                    <p style="color: rgba(255,255,255,0.9); font-weight: 700;">
+                        ✉️ Info@alsaadahfood.com
+                    </p>
                 </div>
 
+                <div class="neo-reveal" style="background: #fff; padding: 35px; border-radius: 28px; border: 1px solid rgba(15, 76, 35, 0.09); box-shadow: var(--neo-shadow-sm); transition-delay: 100ms;">
+                    <span class="neo-eyebrow">🇸🇾 <span class="lang-ar">فرع سوريا</span><span class="lang-en">SYRIA BRANCH</span></span>
+                    <h3 style="font-size: 1.4rem; color: var(--neo-green); font-weight: 900; margin: 10px 0 12px;">
+                        <span class="lang-ar">الجمهورية العربية السورية</span>
+                        <span class="lang-en">Syrian Arab Republic</span>
+                    </h3>
+                    <p style="color: var(--neo-muted); line-height: 1.8; margin-bottom: 15px;">
+                        <span class="lang-ar">ريف دمشق – التل</span>
+                        <span class="lang-en">Rural Damascus – Al-Tall</span>
+                    </p>
+                    <p dir="ltr" style="font-size: 1.05rem; font-weight: 800; color: var(--neo-green);">
+                        📞 +963 944 216 432
+                    </p>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <?php include 'footer.php'; ?>
-</body>
-</html>
+<?php include_once __DIR__ . '/resources/views/layouts/footer.php'; ?>

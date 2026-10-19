@@ -1,0 +1,96 @@
+.neo-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.neo-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes heroZoom {
+    from {
+        transform: scale(1.06);
+    }
+    to {
+        transform: scale(1.17);
+    }
+}
+
+@keyframes riseIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes orbFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0);
+    }
+    50% {
+        transform: translateY(-16px) rotate(4deg);
+    }
+}
+
+@keyframes cardLevitate {
+    0%, 100% {
+        transform: rotateY(-12deg) rotateX(5deg) translateY(0);
+    }
+    50% {
+        transform: rotateY(-8deg) rotateX(2deg) translateY(-12px);
+    }
+}
+
+/* Floating produce background animation */
+.neo-veggie-field {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+    perspective: 900px;
+}
+
+.neo-veggie-field span {
+    position: absolute;
+    display: block;
+    font-size: clamp(3.8rem, 7vw, 6.8rem);
+    line-height: 1;
+    opacity: 1 !important;
+    filter: drop-shadow(0 18px 13px rgba(15, 45, 20, 0.32));
+    transform-style: preserve-3d;
+    will-change: transform;
+    animation: veggieFlight var(--duration, 13s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+    user-select: none;
+}
+
+.neo-veggie-field span:nth-child(1) { top: 8%; left: 4%; --duration: 10s; --delay: -3s; }
+.neo-veggie-field span:nth-child(2) { top: 57%; left: 15%; --duration: 12s; --delay: -8s; font-size: clamp(3.2rem, 6vw, 5.6rem); }
+.neo-veggie-field span:nth-child(3) { top: 20%; right: 5%; --duration: 11s; --delay: -6s; }
+.neo-veggie-field span:nth-child(4) { top: 68%; right: 9%; --duration: 13s; --delay: -10s; font-size: clamp(3.4rem, 6vw, 6rem); }
+.neo-veggie-field span:nth-child(5) { top: 42%; left: 47%; --duration: 14s; --delay: -4s; font-size: clamp(3rem, 5vw, 4.8rem); opacity: 0.9; }
+.neo-veggie-field span:nth-child(6) { top: 10%; right: 34%; --duration: 12s; --delay: -2s; font-size: clamp(3rem, 5vw, 4.8rem); }
+.neo-veggie-field span:nth-child(7) { bottom: 6%; left: 38%; --duration: 15s; --delay: -7s; font-size: clamp(3.2rem, 6vw, 5.8rem); }
+.neo-veggie-field span:nth-child(8) { top: 38%; right: 24%; --duration: 13s; --delay: -5s; font-size: clamp(2.8rem, 5vw, 4.6rem); }
+
+@keyframes veggieFlight {
+    0%, 100% {
+        transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(-12deg) scale(0.94);
+    }
+    25% {
+        transform: translate3d(24px, -28px, 65px) rotateX(24deg) rotateY(-22deg) rotateZ(12deg) scale(1.05);
+    }
+    50% {
+        transform: translate3d(-8px, -54px, 110px) rotateX(-15deg) rotateY(28deg) rotateZ(22deg) scale(1.1);
+    }
+    75% {
+        transform: translate3d(-30px, -18px, 35px) rotateX(18deg) rotateY(10deg) rotateZ(-18deg) scale(0.98);
+    }
+}
