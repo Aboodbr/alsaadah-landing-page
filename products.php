@@ -11,11 +11,8 @@ $stmtProds = $pdo->query("
 ");
 $products = $stmtProds->fetchAll();
 
-$stmtPacks = $pdo->query("SELECT * FROM product_packaging");
-$packagings = [];
-while ($row = $stmtPacks->fetch()) {
-    $packagings[$row['product_id']][] = $row;
-}
+// تم إزالة استعلام جلب التعبئة (product_packaging) من هنا لتسريع الصفحة، 
+// لأنه سيتم جلبه داخل صفحة product-details.php فقط للمنتج المطلوب.
 ?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -45,7 +42,7 @@ while ($row = $stmtPacks->fetch()) {
                 <a href="gallery.php" data-i18n="nav_gallery">المعرض</a>
                 <a href="contact.php" data-i18n="nav_contact">اتصل بنا</a>
             </nav>
-                    <!-- زر القائمة للجوال -->
+            <!-- زر القائمة للجوال -->
             <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
                 <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -90,7 +87,6 @@ while ($row = $stmtPacks->fetch()) {
                     ?>
                     <div class="card product-card" data-category="<?= htmlspecialchars($product['category_slug']) ?>">
                         <div class="product-img-wrapper">
-                            <!-- تمت إضافة loading="lazy" هنا -->
                             <img src="<?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['name_ar']) ?>" loading="lazy">
                         </div>
                         <div class="product-info">
@@ -102,30 +98,9 @@ while ($row = $stmtPacks->fetch()) {
                                 <span class="lang-ar"><?= htmlspecialchars($product['name_ar']) ?></span>
                                 <span class="lang-en"><?= htmlspecialchars($product['name_en']) ?></span>
                             </h4>
-                            <div class="product-details-data hidden">
-                                <p class="mb-4">
-                                    <span class="lang-ar"><?= htmlspecialchars($product['description_ar'] ?? '') ?></span>
-                                    <span class="lang-en"><?= htmlspecialchars($product['description_en'] ?? '') ?></span>
-                                </p>
-                                <?php if (isset($packagings[$product['id']])): ?>
-                                <table class="product-table">
-                                    <thead>
-                                        <tr><th data-i18n="tbl_weight">الوزن</th><th data-i18n="tbl_pack">العبوة</th><th data-i18n="tbl_qty">التعبئة</th><th data-i18n="tbl_gross">القائم</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($packagings[$product['id']] as $pack): ?>
-                                        <tr>
-                                            <td><?= htmlspecialchars($pack['weight']) ?></td>
-                                            <td><span class="lang-ar"><?= htmlspecialchars($pack['package_type_ar']) ?></span><span class="lang-en"><?= htmlspecialchars($pack['package_type_en']) ?></span></td>
-                                            <td><span class="lang-ar"><?= htmlspecialchars($pack['quantity_ar']) ?></span><span class="lang-en"><?= htmlspecialchars($pack['quantity_en']) ?></span></td>
-                                            <td><?= htmlspecialchars($pack['gross_weight']) ?></td>
-                                        </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                                <?php endif; ?>
-                            </div>
-                            <button class="btn btn-outline view-details-btn" data-i18n="btn_details">عرض التفاصيل</button>
+                            
+                            <!-- الرابط المباشر لصفحة التفاصيل -->
+                            <a href="product-details.php?id=<?= $product['id'] ?>" class="btn btn-outline" data-i18n="btn_details" style="display: block; text-align: center; margin-top: 15px;">عرض التفاصيل</a>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -133,20 +108,7 @@ while ($row = $stmtPacks->fetch()) {
         </div>
     </section>
 
-    <div id="productModal" class="product-modal">
-        <div class="product-modal-content">
-            <span class="close-product-modal">&times;</span>
-            <div class="product-modal-grid">
-                <div class="modal-img-col"><img id="modalProductImg" src="" alt=""></div>
-                <div class="modal-info-col">
-                    <span id="modalProductCategory" class="category-tag"></span>
-                    <h3 id="modalProductTitle" class="text-primary mb-4" style="font-size: 2rem;"></h3>
-                    <div id="modalProductDetails"></div> 
-                </div>
-            </div>
-        </div>
-    </div>
-
     <?php include 'footer.php'; ?>
+    <script src="assets/js/script.js"></script>
 </body>
 </html>
