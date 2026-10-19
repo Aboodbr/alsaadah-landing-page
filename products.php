@@ -1,114 +1,72 @@
 <?php
-require_once 'config/database.php';
-$stmtCats = $pdo->query("SELECT * FROM categories ORDER BY id ASC");
-$categories = $stmtCats->fetchAll();
+require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/app/Models/Category.php';
+require_once __DIR__ . '/app/Models/Product.php';
 
-$stmtProds = $pdo->query("
-    SELECT p.*, c.slug as category_slug 
-    FROM products p 
-    JOIN categories c ON p.category_id = c.id 
-    ORDER BY p.id ASC
-");
-$products = $stmtProds->fetchAll();
+$categories = Category::getAll($pdo);
+$products = Product::getAll($pdo);
 
-// تم إزالة استعلام جلب التعبئة (product_packaging) من هنا لتسريع الصفحة، 
-// لأنه سيتم جلبه داخل صفحة product-details.php فقط للمنتج المطلوب.
+$selectedCategory = isset($_GET['category']) ? trim($_GET['category']) : 'all';
+
+$pageTitle = 'Front | منتجاتنا';
+$activeNav = 'products';
+
+$pageHeaderTitleAr = 'منتجاتنا';
+$pageHeaderTitleEn = 'Our Products';
+$pageHeaderDescAr = 'اكتشف مجموعتنا الواسعة من المنتجات الغذائية الفاخرة المصنوعة بعناية لتناسب ذوقك.';
+$pageHeaderDescEn = 'Discover our wide range of premium food products crafted with care for your table.';
+
+include_once __DIR__ . '/resources/views/layouts/header.php';
+include_once __DIR__ . '/resources/views/layouts/page-header.php';
 ?>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Front - Our Products</title>
-    <link rel="icon" type="image/png" href="images/ui/logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/styles.css">
-</head>
-<body>
-    <div id="preloader" style="position: fixed; inset: 0; background: var(--clr-bg); z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease;">
-        <img src="images/ui/logo.png" alt="Loading" style="width: 150px; animation: pulse-green 1.5s infinite;">
-    </div>
 
-    <header class="navbar" id="navbar">
-        <div class="container nav-container">
-            <div class="logo">
-                <a href="index.php"><img src="images/ui/logo.png" alt="Logo" style="height: 60px; object-fit: contain;"></a>
-            </div>
-            <nav class="nav-links">
-                <a href="index.php" data-i18n="nav_home">الرئيسية</a>
-                <a href="products.php" class="active" data-i18n="nav_products">المنتجات</a>
-                <a href="about.php" data-i18n="nav_about">من نحن</a>
-                <a href="gallery.php" data-i18n="nav_gallery">المعرض</a>
-                <a href="contact.php" data-i18n="nav_contact">اتصل بنا</a>
-            </nav>
-            <!-- زر القائمة للجوال -->
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
+<section class="neo-section">
+    <div class="neo-veggie-field" aria-hidden="true"><span>🥕</span><span>🥦</span><span>🍅</span><span>🫑</span><span>🥬</span><span>🌽</span><span>🍆</span><span>🥑</span></div>
+    <div class="container">
+        <!-- Category Filter Pills -->
+        <div class="neo-filter-wrap neo-reveal">
+            <button class="neo-filter-btn <?= $selectedCategory === 'all' ? 'active' : '' ?>" data-filter="all">
+                <span class="lang-ar">الكل</span>
+                <span class="lang-en">All</span>
             </button>
-            <div class="nav-actions">
-                <button id="langSwitcher" class="lang-btn">English</button>
-            </div>
+            <?php foreach ($categories as $cat): ?>
+                <button class="neo-filter-btn <?= $selectedCategory === $cat['slug'] ? 'active' : '' ?>" data-filter="<?= htmlspecialchars($cat['slug']) ?>">
+                    <span class="lang-ar"><?= htmlspecialchars($cat['name_ar']) ?></span>
+                    <span class="lang-en"><?= htmlspecialchars($cat['name_en']) ?></span>
+                </button>
+            <?php endforeach; ?>
         </div>
-    </header>
 
-    <section class="page-header" style="background-image: linear-gradient(rgba(15, 76, 35, 0.8), rgba(15, 76, 35, 0.8)), url('images/banners/slider1.jpg'); background-size: cover; background-position: center; padding: 6rem 0; margin-top: 80px;" data-aos="fade-down">
-        <div class="container text-center">
-            <h2 data-i18n="products_page_title" style="color: var(--clr-accent); font-size: 3rem; margin-bottom: 1rem;">منتجاتنا</h2>
-            <p data-i18n="products_page_desc" style="color: white; font-size: 1.2rem; max-width: 600px; margin: 0 auto; opacity: 0.9;">اكتشف مجموعتنا الواسعة من المنتجات الغذائية الفاخرة المصنوعة بعناية لتناسب ذوقك.</p>
-        </div>
-    </section>
-
-    <section class="products-section section-padding">
-        <div class="container">
-            <div class="products-filter" data-aos="fade-up">
-                <button class="filter-btn active" data-filter="all" data-i18n="filter_all">الكل</button>
-                <?php foreach ($categories as $cat): ?>
-                    <button class="filter-btn" data-filter="<?= htmlspecialchars($cat['slug']) ?>">
-                        <span class="lang-ar"><?= htmlspecialchars($cat['name_ar']) ?></span>
-                        <span class="lang-en"><?= htmlspecialchars($cat['name_en']) ?></span>
-                    </button>
-                <?php endforeach; ?>
-            </div>
-
-            <div class="grid products-grid" id="productGrid" data-aos="fade-up">
-                <?php foreach ($products as $product): ?>
-                    <?php 
-                        $catNameAr = ''; $catNameEn = '';
-                        foreach ($categories as $c) {
-                            if ($c['id'] == $product['category_id']) {
-                                $catNameAr = $c['name_ar']; $catNameEn = $c['name_en']; break;
-                            }
-                        }
-                    ?>
-                    <div class="card product-card" data-category="<?= htmlspecialchars($product['category_slug']) ?>">
-                        <div class="product-img-wrapper">
-                            <img src="<?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['name_ar']) ?>" loading="lazy">
-                        </div>
-                        <div class="product-info">
-                            <span class="category-tag">
-                                <span class="lang-ar"><?= htmlspecialchars($catNameAr) ?></span>
-                                <span class="lang-en"><?= htmlspecialchars($catNameEn) ?></span>
-                            </span>
-                            <h4>
-                                <span class="lang-ar"><?= htmlspecialchars($product['name_ar']) ?></span>
-                                <span class="lang-en"><?= htmlspecialchars($product['name_en']) ?></span>
-                            </h4>
-                            
-                            <!-- الرابط المباشر لصفحة التفاصيل -->
-                            <a href="product-details.php?id=<?= $product['id'] ?>" class="btn btn-outline" data-i18n="btn_details" style="display: block; text-align: center; margin-top: 15px;">عرض التفاصيل</a>
-                        </div>
+        <!-- Product Cards Grid -->
+        <div class="neo-product-grid" id="productGrid">
+            <?php foreach ($products as $index => $product): ?>
+                <article class="neo-product neo-reveal" data-category="<?= htmlspecialchars($product['category_slug']) ?>" style="transition-delay: <?= min($index * 60, 300) ?>ms; <?= ($selectedCategory !== 'all' && $selectedCategory !== $product['category_slug']) ? 'display: none;' : '' ?>">
+                    <div class="neo-product-media">
+                        <span class="neo-product-badge">
+                            <span class="lang-ar">مميز</span>
+                            <span class="lang-en">Featured</span>
+                        </span>
+                        <img src="<?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['name_ar']) ?>" loading="lazy">
                     </div>
-                <?php endforeach; ?>
-            </div>
+                    <div class="neo-product-info">
+                        <span class="neo-product-cat">
+                            <span class="lang-ar"><?= htmlspecialchars($product['cat_ar']) ?></span>
+                            <span class="lang-en"><?= htmlspecialchars($product['cat_en']) ?></span>
+                        </span>
+                        <h3>
+                            <span class="lang-ar"><?= htmlspecialchars($product['name_ar']) ?></span>
+                            <span class="lang-en"><?= htmlspecialchars($product['name_en']) ?></span>
+                        </h3>
+                        <a href="product-details.php?id=<?= (int)$product['id'] ?>" class="neo-product-link">
+                            <span class="lang-ar">عرض التفاصيل</span>
+                            <span class="lang-en">View Details</span>
+                            <i>↙</i>
+                        </a>
+                    </div>
+                </article>
+            <?php endforeach; ?>
         </div>
-    </section>
+    </div>
+</section>
 
-    <?php include 'footer.php'; ?>
-    <script src="assets/js/script.js"></script>
-</body>
-</html>
+<?php include_once __DIR__ . '/resources/views/layouts/footer.php'; ?>

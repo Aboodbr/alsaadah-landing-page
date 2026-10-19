@@ -1,106 +1,127 @@
 <?php
-require_once 'config/database.php';
-$categories = $pdo->query("SELECT name_ar, name_en FROM categories ORDER BY id ASC")->fetchAll();
+require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/app/Models/Category.php';
+
+$categories = Category::getAll($pdo);
+
+$pageTitle = 'Front | قصتنا وجودتنا';
+$activeNav = 'about';
+
+$pageHeaderTitleAr = 'قصتنا وحكايتنا مع الجودة';
+$pageHeaderTitleEn = 'Our Story & Heritage';
+$pageHeaderDescAr = 'تعرّف على مسيرتنا في تقديم أجود المنتجات الغذائية من الطبيعة مباشرة إلى مائدتك.';
+$pageHeaderDescEn = 'Discover our journey of bringing the finest food products from nature straight to your table.';
+
+include_once __DIR__ . '/resources/views/layouts/header.php';
+include_once __DIR__ . '/resources/views/layouts/page-header.php';
 ?>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Front - About Us</title>
-    <link rel="icon" type="image/png" href="images/ui/logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/styles.css">
-</head>
-<body>
-    <div id="preloader" style="position: fixed; inset: 0; background: var(--clr-bg); z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease;">
-        <img src="images/ui/logo.png" alt="Loading" style="width: 150px; animation: pulse-green 1.5s infinite;">
+
+<!-- Brand Mission Section -->
+<section class="neo-section">
+    <div class="neo-veggie-field" aria-hidden="true"><span>🥕</span><span>🥦</span><span>🍅</span><span>🫑</span><span>🥬</span><span>🌽</span><span>🍆</span><span>🥑</span></div>
+    <div class="container">
+        <div class="neo-story-grid">
+            <div class="neo-story-visual neo-reveal">
+                <div class="neo-story-image">
+                    <img src="images/about.jpg" alt="Front Story" loading="lazy" onerror="this.src='images/banners/slider1.jpg';">
+                </div>
+                <div class="neo-story-stamp">
+                    <span class="lang-ar">جودة<br>عالمية<br>✦</span>
+                    <span class="lang-en">GLOBAL<br>QUALITY<br>✦</span>
+                </div>
+            </div>
+
+            <div class="neo-reveal">
+                <span class="neo-eyebrow">
+                    <span class="lang-ar">شغفنا ورسالتنا</span>
+                    <span class="lang-en">OUR PASSION & MISSION</span>
+                </span>
+                <h2>
+                    <span class="lang-ar">أكثر من عقدين من<br>التميز والابتكار.</span>
+                    <span class="lang-en">Over two decades of<br>excellence and flavor.</span>
+                </h2>
+                <p class="neo-story-copy" style="color: var(--neo-muted);">
+                    <span class="lang-ar">تعتبر شركة Front إحدى الشركات الرائدة في تصنيع وتصدير المنتجات الغذائية الشرقية والغربية. نحن نلتزم بأعلى معايير سلامة الأغذية، بدءاً من اختيار أفضل المحاصيل الزراعية وحتى التعبئة والتغليف بأحدث التقنيات.</span>
+                    <span class="lang-en">Front is a leading manufacturer and exporter of traditional and modern food products. We adhere to the highest international food safety standards, from selecting top-tier crops to state-of-the-art packaging.</span>
+                </p>
+
+                <div class="neo-story-points">
+                    <div class="neo-story-point" style="color: var(--neo-green);"><b>✓</b><span class="lang-ar">جودة معتمدة دولياً</span><span class="lang-en">Internationally certified</span></div>
+                    <div class="neo-story-point" style="color: var(--neo-green);"><b>✓</b><span class="lang-ar">مكونات طبيعية 100%</span><span class="lang-en">100% natural ingredients</span></div>
+                    <div class="neo-story-point" style="color: var(--neo-green);"><b>✓</b><span class="lang-ar">تقنيات تعبئة حديثة</span><span class="lang-en">Advanced packaging</span></div>
+                    <div class="neo-story-point" style="color: var(--neo-green);"><b>✓</b><span class="lang-ar">تصدير لجميع القارات</span><span class="lang-en">Exported worldwide</span></div>
+                </div>
+            </div>
+        </div>
     </div>
+</section>
 
-    <header class="navbar" id="navbar">
-        <div class="container nav-container">
-            <div class="logo">
-                <a href="index.php"><img src="images/ui/logo.png" alt="Logo" style="height: 60px; object-fit: contain;"></a>
-            </div>
-            <nav class="nav-links">
-                <a href="index.php" data-i18n="nav_home">الرئيسية</a>
-                <a href="products.php" data-i18n="nav_products">المنتجات</a>
-                <a href="about.php" class="active" data-i18n="nav_about">من نحن</a>
-                <a href="gallery.php" data-i18n="nav_gallery">المعرض</a>
-                <a href="contact.php" data-i18n="nav_contact">اتصل بنا</a>
-            </nav>
-            <div class="nav-actions">
-                <button id="langSwitcher" class="lang-btn">English</button>
+<!-- Values Cards Section -->
+<section class="neo-section" style="background: #fff;">
+    <div class="container">
+        <div class="neo-section-head neo-reveal text-center" style="text-align: center; margin-bottom: 50px;">
+            <div>
+                <span class="neo-eyebrow"><span class="lang-ar">قيمنا الجوهرية</span><span class="lang-en">OUR CORE VALUES</span></span>
+                <h2><span class="lang-ar">لماذا يختارنا العملاء؟</span><span class="lang-en">Why Customers Trust Us</span></h2>
             </div>
         </div>
-    </header>
 
-    <section class="page-header" style="background-image: linear-gradient(rgba(15, 76, 35, 0.9), rgba(15, 76, 35, 0.9)), url('images/banners/about-cover.jpg'); margin-top: 80px;" data-aos="fade-down">
-        <div class="container text-center">
-            <h2 data-i18n="about_page_title" style="color: var(--clr-accent); font-size: 3rem; margin-bottom: 1rem;">شركة السعادة للمنتجات الغذائية</h2>
-            <p data-i18n="about_page_subtitle" style="color: white; font-weight: bold; font-size: 1.5rem;">مذاق من التراث</p>
-        </div>
-    </section>
+        <div class="neo-product-grid">
+            <div class="neo-product neo-reveal" style="padding: 30px; text-align: center; display: block;">
+                <div style="font-size: 2.8rem; margin-bottom: 15px;">🌟</div>
+                <h3 style="color: var(--neo-green); font-weight: 900; margin-bottom: 12px;">
+                    <span class="lang-ar">الأصالة والمذاق</span><span class="lang-en">Authenticity & Taste</span>
+                </h3>
+                <p style="color: var(--neo-muted); font-size: 0.95rem; line-height: 1.8;">
+                    <span class="lang-ar">نحافظ على الوصفات الأصيلة التي تعيد إليك طعم البركة والذاكرة الجميلة.</span>
+                    <span class="lang-en">We preserve authentic recipes that deliver rich, traditional flavors.</span>
+                </p>
+            </div>
 
-    <section class="about-story section-padding">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-text-content" data-aos="fade-left">
-                    <h3 data-i18n="story_title" class="text-primary mb-4">موثوقة عبر الأجيال</h3>
-                    <p data-i18n="story_p1">موثوقة عبر الأجيال لجودتها العالية، السعادة® تجلب إلى الذهن أوقات الوجبات العائلية التي لا تنسى والوصفات المنزلية الشهية. منذ تأسيسها، قدمت السعادة مجموعة متنوعة من المنتجات التي تعزز طريقة تحضير الطعام ومذاقه لتكمل الطريقة التي تطهو بها وأطباقك المفضلة.</p>
-                </div>
-                <div class="about-video-wrapper" data-aos="fade-right">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/PbiPEZiACbw?si=1se8QbBNvokcqOht" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                </div>
+            <div class="neo-product neo-reveal" style="padding: 30px; text-align: center; display: block; transition-delay: 100ms;">
+                <div style="font-size: 2.8rem; margin-bottom: 15px;">🔬</div>
+                <h3 style="color: var(--neo-green); font-weight: 900; margin-bottom: 12px;">
+                    <span class="lang-ar">السلامة والرقابة</span><span class="lang-en">Safety & Hygiene</span>
+                </h3>
+                <p style="color: var(--neo-muted); font-size: 0.95rem; line-height: 1.8;">
+                    <span class="lang-ar">تخضع جميع خطوط الإنتاج للفحص والرقابة المستمرة لضمان أعلى سلامة.</span>
+                    <span class="lang-en">All production lines undergo rigorous, continuous quality inspection.</span>
+                </p>
+            </div>
+
+            <div class="neo-product neo-reveal" style="padding: 30px; text-align: center; display: block; transition-delay: 200ms;">
+                <div style="font-size: 2.8rem; margin-bottom: 15px;">🌍</div>
+                <h3 style="color: var(--neo-green); font-weight: 900; margin-bottom: 12px;">
+                    <span class="lang-ar">الانتشار العالمي</span><span class="lang-en">Global Reach</span>
+                </h3>
+                <p style="color: var(--neo-muted); font-size: 0.95rem; line-height: 1.8;">
+                    <span class="lang-ar">نصل بمنتجاتنا إلى معظم الأسواق العالمية مع التزام تام بمواعيد التسليم.</span>
+                    <span class="lang-en">Delivering our products to international markets with reliability.</span>
+                </p>
+            </div>
+
+            <div class="neo-product neo-reveal" style="padding: 30px; text-align: center; display: block; transition-delay: 300ms;">
+                <div style="font-size: 2.8rem; margin-bottom: 15px;">🤝</div>
+                <h3 style="color: var(--neo-green); font-weight: 900; margin-bottom: 12px;">
+                    <span class="lang-ar">خدمة شركاء النجاح</span><span class="lang-en">Partner Satisfaction</span>
+                </h3>
+                <p style="color: var(--neo-muted); font-size: 0.95rem; line-height: 1.8;">
+                    <span class="lang-ar">نبني علاقات طويلة الأمد مع عملائنا وموزعينا قائمة على الشفافية والثقة.</span>
+                    <span class="lang-en">Building long-term transparent partnerships with clients and agents.</span>
+                </p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="about-expansion bg-light section-padding">
-        <div class="container">
-            <div class="about-grid reverse-grid">
-                <div class="about-image-wrapper" data-aos="fade-left">
-                    <img src="images/about.jpg" alt="Al Saadah Factory" class="rounded-img shadow-lg" style="width: 100%; border-radius: 12px;">
-                </div>
-                <div class="about-text-content" data-aos="fade-right">
-                    <h3 data-i18n="expansion_title" class="text-primary mb-4">من قلب الغوطة الدمشقية إلى العالم</h3>
-                    <p data-i18n="expansion_p1">وفرة وجودة المواد الغذائية التي تذخر بها أرضنا الشامية المباركة وخبرة أجدادنا في صناعة المنتجات الغذائية، كانت انطلاقة لشركتنا في عام 1984 م في قلب الغوطة الدمشقية بالأصناف المحددة كالمربيات والقمر الدين.</p>
-                    <p data-i18n="expansion_p2">التحديات دفعتنا للاستمرار في العمل في وطننا مع ضرورة التوسع في الشرق الأوسط الذي كان بإنشاء مصنع في القاهرة للاستفادة من وفرة الخيرات الزراعية وتقديمها للأسواق الجديدة.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- Numbers & Achievements -->
+<section class="neo-numbers">
+    <div class="neo-veggie-field" aria-hidden="true"><span>🥕</span><span>🥦</span><span>🍅</span><span>🫑</span><span>🥬</span><span>🌽</span><span>🍆</span><span>🥑</span></div>
+    <div class="container neo-number-grid">
+        <div class="neo-number neo-reveal"><strong>+25</strong><span><span class="lang-ar">عاماً من الخبرة</span><span class="lang-en">Years of experience</span></span></div>
+        <div class="neo-number neo-reveal"><strong>+30</strong><span><span class="lang-ar">دولة نسعد بالتصدير لها</span><span class="lang-en">Countries exported to</span></span></div>
+        <div class="neo-number neo-reveal"><strong>100%</strong><span><span class="lang-ar">رضا شركائنا وعملائنا</span><span class="lang-en">Partner satisfaction</span></span></div>
+    </div>
+</section>
 
-    <section class="mission-goals section-padding text-center">
-        <div class="container">
-            <div class="mission-box mb-5" data-aos="zoom-in">
-                <h3 data-i18n="mission_title" class="text-secondary">المهمة</h3>
-                <p data-i18n="mission_desc" class="lead-text">المثابرة للوصول لمنتج غذائي صحي وشهي بالطعم والجودة التي تتميز بها محاصيلنا والخبرة الصناعية التي ورثناها عن أجدادنا، لتقديمه إلى عملائنا، وفق أفضل المعايير العالمية.</p>
-            </div>
-            
-            <h3 data-i18n="goals_title" class="text-primary mb-4 mt-5" data-aos="fade-up">الأهداف</h3>
-            <div class="goals-grid">
-                <div class="goal-card" data-aos="fade-up" data-aos-delay="100"><div class="goal-icon">🛡️</div><h4 data-i18n="goal_1">"صحتكم أمانة في أعناقنا"</h4></div>
-                <div class="goal-card" data-aos="fade-up" data-aos-delay="200"><div class="goal-icon">❤️</div><h4 data-i18n="goal_2">"رضاكم ما نسعى إليه"</h4></div>
-                <div class="goal-card" data-aos="fade-up" data-aos-delay="300"><div class="goal-icon">🌟</div><h4 data-i18n="goal_3">"وثقتكم نجاحنا"</h4></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="about-products-list bg-light section-padding" data-aos="fade-up">
-        <div class="container">
-            <div class="section-title">
-                <h3 data-i18n="full_products_title">قائمة منتجاتنا</h3>
-                <p data-i18n="full_products_desc">الآن نقدم مجموعة متكاملة من المنتجات تكمل احتياجات المستهلك لدينا وسنستمر في تطوير منتجات جديدة.</p>
-            </div>
-            <ul class="multi-column-list">
-                <?php foreach ($categories as $cat): ?>
-                    <li><span class="lang-ar"><?= htmlspecialchars($cat['name_ar']) ?></span><span class="lang-en"><?= htmlspecialchars($cat['name_en']) ?></span></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </section>
-
-    <?php include 'footer.php'; ?>
-</body>
-</html>
+<?php include_once __DIR__ . '/resources/views/layouts/footer.php'; ?>
