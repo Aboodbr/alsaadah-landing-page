@@ -980,17 +980,22 @@ document.addEventListener("DOMContentLoaded", () => {
    PRELOADER
    ========================================== */
 
-window.addEventListener("load", () => {
-  const preloader = document.getElementById("preloader");
-
-  if (!preloader) return;
-
-  preloader.style.opacity = "0";
-
-  setTimeout(() => {
-    preloader.style.display = "none";
-  }, 500);
-});
+(function () {
+  function hidePreloader() {
+    const preloader = document.getElementById("preloader");
+    if (!preloader || preloader.dataset.hidden) return;
+    preloader.dataset.hidden = "1";
+    preloader.style.opacity = "0";
+    preloader.style.pointerEvents = "none";
+    setTimeout(() => {
+      preloader.style.display = "none";
+    }, 300);
+  }
+  // Hide as soon as the DOM is ready; hard limit as a fallback.
+  document.addEventListener("DOMContentLoaded", hidePreloader);
+  window.addEventListener("load", hidePreloader);
+  setTimeout(hidePreloader, 1200);
+})();
 // تشغيل قائمة الجوال
 document.addEventListener("DOMContentLoaded", () => {
   const mobileMenuBtn = document.getElementById("mobileMenuBtn");
