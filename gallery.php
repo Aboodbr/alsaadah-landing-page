@@ -28,33 +28,9 @@ $gallery_items = $stmtProds->fetchAll();
         <img src="images/ui/logo.png" alt="Loading" style="width: 150px; animation: pulse-green 1.5s infinite;">
     </div>
 
-    <header class="navbar" id="navbar">
-        <div class="container nav-container">
-            <div class="logo">
-                <a href="index.php"><img src="images/ui/logo.png" alt="Logo" style="height: 60px; object-fit: contain;"></a>
-            </div>
-            <nav class="nav-links">
-                <a href="index.php" data-i18n="nav_home">الرئيسية</a>
-                <a href="products.php" data-i18n="nav_products">المنتجات</a>
-                <a href="about.php" data-i18n="nav_about">من نحن</a>
-                <a href="gallery.php" class="active" data-i18n="nav_gallery">المعرض</a>
-                <a href="contact.php" data-i18n="nav_contact">اتصل بنا</a>
-            </nav>
-                    <!-- زر القائمة للجوال -->
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </button>
-            <div class="nav-actions">
-                <button id="langSwitcher" class="lang-btn">English</button>
-            </div>
-        </div>
-    </header>
+    <?php $current_page = 'gallery'; include 'header.php'; ?>
 
-    <section class="page-header" style="background-image: linear-gradient(rgba(15, 76, 35, 0.85), rgba(15, 76, 35, 0.85)), url('images/banners/gallery-cover.jpg'); padding: 5rem 0; margin-top: 80px;" data-aos="fade-down">
+    <section class="page-header" style="background-image: linear-gradient(rgba(15, 76, 35, 0.85), rgba(15, 76, 35, 0.85)), url('images/banners/gallery-cover.jpg'); padding: 5rem 0; " data-aos="fade-down">
         <div class="container text-center">
             <h2 data-i18n="gallery_title" style="color: var(--clr-accent); font-size: 3rem;">معرض الصور</h2>
             <p data-i18n="gallery_desc" style="color: white; font-size: 1.2rem;">رحلة بصرية عبر منتجاتنا الفاخرة.</p>

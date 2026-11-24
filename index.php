@@ -20,18 +20,7 @@ $featured_products = $pdo->query("SELECT p.*, c.name_ar as cat_ar, c.name_en as 
 <link rel="stylesheet" href="assets/css/index.css">
 </head>
 <body>
-<div class="neo-topline"></div>
-<header class="neo-nav" id="navbar"><div class="container neo-nav-inner">
-<a class="neo-logo" href="index.php" aria-label="شركة السعادة - الرئيسية"><img src="images/ui/logo.png" alt="شعار شركة السعادة للمنتجات الغذائية" width="160" height="60"></a>
-<nav class="neo-links" id="neoLinks">
-<a href="index.php" class="active"><span class="lang-ar">الرئيسية</span><span class="lang-en">Home</span></a>
-<a href="products.php"><span class="lang-ar">منتجاتنا</span><span class="lang-en">Products</span></a>
-<a href="about.php"><span class="lang-ar">قصتنا</span><span class="lang-en">Our Story</span></a>
-<a href="gallery.php"><span class="lang-ar">من عالمنا</span><span class="lang-en">Gallery</span></a>
-<a href="contact.php"><span class="lang-ar">تواصل معنا</span><span class="lang-en">Contact</span></a>
-</nav>
-<div class="neo-nav-tools"><button id="langSwitcher" class="neo-lang" type="button">English</button><button class="neo-menu" id="mobileMenuBtn" type="button" aria-label="فتح القائمة" aria-expanded="false">☰</button></div>
-</div></header>
+<?php $current_page = 'home'; include 'header.php'; ?>
 <main>
    <section class="hero-slider">
         <div class="slider-container" id="heroSlider">

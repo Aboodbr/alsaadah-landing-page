@@ -165,76 +165,7 @@ $galleryJson = json_encode(
 
 <body>
 
-    <div class="details-topline"></div>
-
-    <header class="details-navbar" id="navbar">
-        <div class="details-nav-inner">
-
-            <a class="details-logo" href="index.php" aria-label="Al Saadah Home">
-                <img src="images/ui/logo.png" alt="Al Saadah">
-            </a>
-
-            <nav class="details-nav-links" id="neoLinks" aria-label="Main navigation">
-                <a href="index.php" data-i18n="nav_home">
-                    <span class="lang-ar">الرئيسية</span>
-                    <span class="lang-en">Home</span>
-                </a>
-
-                <a href="products.php" class="active" data-i18n="nav_products">
-                    <span class="lang-ar">المنتجات</span>
-                    <span class="lang-en">Products</span>
-                </a>
-
-                <a href="about.php" data-i18n="nav_about">
-                    <span class="lang-ar">من نحن</span>
-                    <span class="lang-en">About Us</span>
-                </a>
-
-                <a href="gallery.php" data-i18n="nav_gallery">
-                    <span class="lang-ar">المعرض</span>
-                    <span class="lang-en">Gallery</span>
-                </a>
-
-                <a href="contact.php" data-i18n="nav_contact">
-                    <span class="lang-ar">اتصل بنا</span>
-                    <span class="lang-en">Contact Us</span>
-                </a>
-            </nav>
-
-            <div class="details-nav-actions">
-                <button
-                    id="langSwitcher"
-                    class="details-language lang-btn"
-                    type="button"
-                >
-                    English
-                </button>
-
-                <button
-                    class="details-menu-button"
-                    id="mobileMenuBtn"
-                    type="button"
-                    aria-label="Open navigation menu"
-                    aria-expanded="false"
-                >
-                    <svg
-                        width="25"
-                        height="25"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                    >
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-
-        </div>
-    </header>
+    <?php $current_page = 'products'; include 'header.php'; ?>
 
     <main class="details-page">
 
@@ -657,30 +588,6 @@ $galleryJson = json_encode(
                 hint.hidden = true;
             }
         }
-
-        // Mobile navigation menu.
-        const menuButton = document.getElementById('mobileMenuBtn');
-        const navLinks = document.getElementById('neoLinks');
-
-        menuButton?.addEventListener('click', () => {
-            const isOpen = navLinks?.classList.toggle('open') ?? false;
-
-            menuButton.setAttribute(
-                'aria-expanded',
-                isOpen ? 'true' : 'false'
-            );
-        });
-
-        navLinks?.querySelectorAll('a').forEach((link) => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('open');
-
-                menuButton?.setAttribute(
-                    'aria-expanded',
-                    'false'
-                );
-            });
-        });
 
     })();
     </script>

@@ -45,27 +45,7 @@ $categories = $pdo->query(
         <img src="images/ui/logo.png" alt="Loading" style="width:150px;max-width:40vw;animation:pulse-green 1.5s infinite;">
     </div>
 
-    <header class="navbar" id="navbar">
-        <div class="container nav-container">
-            <div class="logo">
-                <a href="index.php">
-                    <img src="images/ui/logo.png" alt="Logo" style="height:60px;object-fit:contain;">
-                </a>
-            </div>
-
-            <nav class="nav-links">
-                <a href="index.php" data-i18n="nav_home">الرئيسية</a>
-                <a href="products.php" data-i18n="nav_products">المنتجات</a>
-                <a href="about.php" class="active" data-i18n="nav_about">من نحن</a>
-                <a href="gallery.php" data-i18n="nav_gallery">المعرض</a>
-                <a href="contact.php" data-i18n="nav_contact">اتصل بنا</a>
-            </nav>
-
-            <div class="nav-actions">
-                <button id="langSwitcher" class="lang-btn" type="button">English</button>
-            </div>
-        </div>
-    </header>
+    <?php $current_page = 'about'; include 'header.php'; ?>
 
     <!-- Hero -->
     <section class="about-hero" data-aos="fade-down">
