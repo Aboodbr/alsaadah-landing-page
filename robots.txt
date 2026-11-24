@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /config/
+Disallow: /includes/
+Disallow: /assets/api/
+Sitemap: https://alsaadahfood.com/sitemap.xml

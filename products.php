@@ -10,23 +10,21 @@ $stmtProds = $pdo->query("
     ORDER BY p.id ASC
 ");
 $products = $stmtProds->fetchAll();
-
-// تم إزالة استعلام جلب التعبئة (product_packaging) من هنا لتسريع الصفحة، 
-// لأنه سيتم جلبه داخل صفحة product-details.php فقط للمنتج المطلوب.
 ?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Front - Our Products</title>
+    <?php require_once __DIR__ . '/includes/seo.php'; render_seo('منتجاتنا | شركة السعادة للمنتجات الغذائية', 'تصفح أكثر من 200 منتج من السعادة: معجون الطماطم والصلصات، المربيات، المخللات، الزيتون، الحلاوة والطحينة، المعلبات، البهارات والبقوليات.', 'products.php'); ?>
     <link rel="icon" type="image/png" href="images/ui/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/products.css">
 </head>
 <body>
-    <div id="preloader" style="position: fixed; inset: 0; background: var(--clr-bg); z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease;">
+    <div id="preloader" style="position: fixed; inset: 0.0; background: #e7ece3; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease;">
         <img src="images/ui/logo.png" alt="Loading" style="width: 150px; animation: pulse-green 1.5s infinite;">
     </div>
 
@@ -56,16 +54,21 @@ $products = $stmtProds->fetchAll();
         </div>
     </header>
 
-    <section class="page-header" style="background-image: linear-gradient(rgba(15, 76, 35, 0.8), rgba(15, 76, 35, 0.8)), url('images/banners/slider1.jpg'); background-size: cover; background-position: center; padding: 6rem 0; margin-top: 80px;" data-aos="fade-down">
+    <section class="page-header" style="background-image: linear-gradient(rgba(15, 76, 35, 0.9), rgba(15, 76, 35, 0.9)), url('images/banners/slider1.jpg'); background-size: cover; background-position: center; padding: 6rem 0; margin-top: 80px;" data-aos="fade-down">
         <div class="container text-center">
             <h2 data-i18n="products_page_title" style="color: var(--clr-accent); font-size: 3rem; margin-bottom: 1rem;">منتجاتنا</h2>
-            <p data-i18n="products_page_desc" style="color: white; font-size: 1.2rem; max-width: 600px; margin: 0 auto; opacity: 0.9;">اكتشف مجموعتنا الواسعة من المنتجات الغذائية الفاخرة المصنوعة بعناية لتناسب ذوقك.</p>
+            <p data-i18n="products_page_desc" style="color: #f7f8f4; font-size: 1.2rem; max-width: 600px; margin: 0 auto; opacity: 0.95;">اكتشف مجموعتنا الواسعة من المنتجات الغذائية الفاخرة المصنوعة بعناية لتناسب ذوقك.</p>
         </div>
     </section>
 
-    <section class="products-section section-padding">
+    <section class="products-section">
+        <!-- طبقة الإيموجيز الطائرة في الخلفية -->
+        <div class="neo-veggie-field" aria-hidden="true">
+            <span>🫒</span><span>🫑</span><span>🌶️</span><span>🧄</span><span>🌿</span>
+        </div>
+
         <div class="container">
-            <div class="products-filter" data-aos="fade-up">
+            <div class="products-filter" data-aos="fade-up" style="margin-bottom: 2.5rem; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
                 <button class="filter-btn active" data-filter="all" data-i18n="filter_all">الكل</button>
                 <?php foreach ($categories as $cat): ?>
                     <button class="filter-btn" data-filter="<?= htmlspecialchars($cat['slug']) ?>">
@@ -75,7 +78,7 @@ $products = $stmtProds->fetchAll();
                 <?php endforeach; ?>
             </div>
 
-            <div class="grid products-grid" id="productGrid" data-aos="fade-up">
+            <div class="grid products-grid" id="productGrid" data-aos="fade-up" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px;">
                 <?php foreach ($products as $product): ?>
                     <?php 
                         $catNameAr = ''; $catNameEn = '';
@@ -85,22 +88,24 @@ $products = $stmtProds->fetchAll();
                             }
                         }
                     ?>
-                    <div class="card product-card" data-category="<?= htmlspecialchars($product['category_slug']) ?>">
-                        <div class="product-img-wrapper">
-                            <img src="<?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['name_ar']) ?>" loading="lazy">
+                    <div class="card product-card" data-category="<?= htmlspecialchars($product['category_slug']) ?>" style="display: flex; flex-direction: column;">
+                        <div class="product-img-wrapper" style="height: 220px; display: flex; align-items: center; justify-content: center; padding: 15px;">
+                            <img loading="lazy" decoding="async" src="<?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['name_ar']) ?>" loading="lazy" style="max-height: 100%; max-width: 100%; object-fit: contain;">
                         </div>
-                        <div class="product-info">
-                            <span class="category-tag">
-                                <span class="lang-ar"><?= htmlspecialchars($catNameAr) ?></span>
-                                <span class="lang-en"><?= htmlspecialchars($catNameEn) ?></span>
-                            </span>
-                            <h4>
-                                <span class="lang-ar"><?= htmlspecialchars($product['name_ar']) ?></span>
-                                <span class="lang-en"><?= htmlspecialchars($product['name_en']) ?></span>
-                            </h4>
+                        <div class="product-info" style="padding: 22px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <span class="category-tag">
+                                    <span class="lang-ar"><?= htmlspecialchars($catNameAr) ?></span>
+                                    <span class="lang-en"><?= htmlspecialchars($catNameEn) ?></span>
+                                </span>
+                                <h4 style="margin: 10px 0 15px; font-size: 1.25rem; color: var(--clr-primary, #0F4C23);">
+                                    <span class="lang-ar"><?= htmlspecialchars($product['name_ar']) ?></span>
+                                    <span class="lang-en"><?= htmlspecialchars($product['name_en']) ?></span>
+                                </h4>
+                            </div>
                             
                             <!-- الرابط المباشر لصفحة التفاصيل -->
-                            <a href="product-details.php?id=<?= $product['id'] ?>" class="btn btn-outline" data-i18n="btn_details" style="display: block; text-align: center; margin-top: 15px;">عرض التفاصيل</a>
+                            <a href="product-details.php?id=<?= $product['id'] ?>" class="btn-details-custom" data-i18n="btn_details">عرض التفاصيل</a>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -109,6 +114,5 @@ $products = $stmtProds->fetchAll();
     </section>
 
     <?php include 'footer.php'; ?>
-    <script src="assets/js/script.js"></script>
 </body>
 </html>

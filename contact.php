@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Front - Contact Us</title>
+    <?php require_once __DIR__ . '/includes/seo.php'; render_seo('تواصل معنا | شركة السعادة للمنتجات الغذائية', 'تواصل مع شركة السعادة: الإدارة في العاشر من رمضان بمصر، ومصنع سوريا في ريف دمشق. هاتف وبريد إلكتروني ونموذج مراسلة.', 'contact.php'); ?>
     <link rel="icon" type="image/png" href="images/ui/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">

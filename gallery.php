@@ -17,7 +17,7 @@ $gallery_items = $stmtProds->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Front - Gallery</title>
+    <?php require_once __DIR__ . '/includes/seo.php'; render_seo('معرض الصور | شركة السعادة للمنتجات الغذائية', 'صور من عالم السعادة: منتجاتنا الغذائية ومصانعنا في سوريا ومصر.', 'gallery.php'); ?>
     <link rel="icon" type="image/png" href="images/ui/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -72,7 +72,7 @@ $gallery_items = $stmtProds->fetchAll();
                 <div class="masonry-item" data-category="<?= htmlspecialchars($item['filter_category']) ?>" data-aos="fade-up" data-aos-delay="<?= ($index % 4) * 50 ?>">
                     
                     <!-- تمت إضافة loading="lazy" هنا -->
-                    <img src="<?= htmlspecialchars($item['image_path']) ?>" alt="<?= htmlspecialchars($item['name_ar']) ?>" loading="lazy">
+                    <img loading="lazy" decoding="async" src="<?= htmlspecialchars($item['image_path']) ?>" alt="<?= htmlspecialchars($item['name_ar']) ?>" loading="lazy">
                     
                     <!-- Glassmorphism Overlay -->
                     <div class="masonry-overlay">
@@ -105,7 +105,7 @@ $gallery_items = $stmtProds->fetchAll();
     <!-- Lightbox (النافذة المنبثقة) -->
     <div id="lightbox" class="lightbox">
         <span class="lightbox-close">&times;</span>
-        <img class="lightbox-img" id="lightbox-img" src="">
+        <img loading="lazy" decoding="async" class="lightbox-img" id="lightbox-img" src="">
         <div id="lightbox-caption" class="lightbox-caption"></div>
     </div>
 

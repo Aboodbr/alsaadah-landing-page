@@ -1,28 +1,58 @@
+
 <?php
 require_once 'config/database.php';
-$categories = $pdo->query("SELECT name_ar, name_en FROM categories ORDER BY id ASC")->fetchAll();
+
+$categories = $pdo->query(
+    "SELECT name_ar, name_en FROM categories ORDER BY id ASC"
+)->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Front - About Us</title>
+
+    <?php require_once __DIR__ . '/includes/seo.php'; render_seo('من نحن | شركة السعادة للمنتجات الغذائية - من دمشق إلى العالم', 'تعرف على قصة شركة السعادة للمنتجات الغذائية: خبرة دمشقية عريقة، مصنع في ريف دمشق ومصنع في العاشر من رمضان بمصر، ومنتجات تصل إلى أكثر من 35 دولة.', 'about.php'); ?>
+
     <link rel="icon" type="image/png" href="images/ui/logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&family=Tajawal:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
+
+    <link rel="stylesheet" href="assets/css/about.css">
 </head>
+
 <body>
-    <div id="preloader" style="position: fixed; inset: 0; background: var(--clr-bg); z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease;">
-        <img src="images/ui/logo.png" alt="Loading" style="width: 150px; animation: pulse-green 1.5s infinite;">
+
+    <!-- Animated floating food emojis -->
+    <div class="about-floating-food" aria-hidden="true">
+        <span class="food-item" style="--left:5%;--size:31px;--duration:23s;--delay:-4s;--opacity:.24;">🍅</span>
+        <span class="food-item" style="--left:13%;--size:25px;--duration:29s;--delay:-15s;--opacity:.20;">🥕</span>
+        <span class="food-item" style="--left:21%;--size:34px;--duration:25s;--delay:-9s;--opacity:.23;">🍃</span>
+        <span class="food-item" style="--left:30%;--size:27px;--duration:31s;--delay:-21s;--opacity:.19;">🍎</span>
+        <span class="food-item" style="--left:39%;--size:32px;--duration:24s;--delay:-12s;--opacity:.22;">🌿</span>
+        <span class="food-item" style="--left:48%;--size:26px;--duration:28s;--delay:-5s;--opacity:.20;">🍋</span>
+        <span class="food-item" style="--left:57%;--size:35px;--duration:26s;--delay:-18s;--opacity:.22;">🍇</span>
+        <span class="food-item" style="--left:66%;--size:27px;--duration:32s;--delay:-8s;--opacity:.18;">🥬</span>
+        <span class="food-item" style="--left:75%;--size:32px;--duration:24s;--delay:-16s;--opacity:.23;">🍓</span>
+        <span class="food-item" style="--left:84%;--size:28px;--duration:30s;--delay:-6s;--opacity:.20;">🫒</span>
+        <span class="food-item" style="--left:93%;--size:34px;--duration:27s;--delay:-20s;--opacity:.22;">🍊</span>
+    </div>
+
+    <div id="preloader" style="position:fixed;inset:0;background:var(--clr-bg,#faf8f0);z-index:99999;display:flex;justify-content:center;align-items:center;transition:opacity .5s ease;">
+        <img src="images/ui/logo.png" alt="Loading" style="width:150px;max-width:40vw;animation:pulse-green 1.5s infinite;">
     </div>
 
     <header class="navbar" id="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.php"><img src="images/ui/logo.png" alt="Logo" style="height: 60px; object-fit: contain;"></a>
+                <a href="index.php">
+                    <img src="images/ui/logo.png" alt="Logo" style="height:60px;object-fit:contain;">
+                </a>
             </div>
+
             <nav class="nav-links">
                 <a href="index.php" data-i18n="nav_home">الرئيسية</a>
                 <a href="products.php" data-i18n="nav_products">المنتجات</a>
@@ -30,77 +60,194 @@ $categories = $pdo->query("SELECT name_ar, name_en FROM categories ORDER BY id A
                 <a href="gallery.php" data-i18n="nav_gallery">المعرض</a>
                 <a href="contact.php" data-i18n="nav_contact">اتصل بنا</a>
             </nav>
+
             <div class="nav-actions">
-                <button id="langSwitcher" class="lang-btn">English</button>
+                <button id="langSwitcher" class="lang-btn" type="button">English</button>
             </div>
         </div>
     </header>
 
-    <section class="page-header" style="background-image: linear-gradient(rgba(15, 76, 35, 0.9), rgba(15, 76, 35, 0.9)), url('images/banners/about-cover.jpg'); margin-top: 80px;" data-aos="fade-down">
-        <div class="container text-center">
-            <h2 data-i18n="about_page_title" style="color: var(--clr-accent); font-size: 3rem; margin-bottom: 1rem;">شركة السعادة للمنتجات الغذائية</h2>
-            <p data-i18n="about_page_subtitle" style="color: white; font-weight: bold; font-size: 1.5rem;">مذاق من التراث</p>
+    <!-- Hero -->
+    <section class="about-hero" data-aos="fade-down">
+        <div class="container about-hero-content">
+            <span class="about-eyebrow" data-i18n="about_eyebrow">حكاية جودة وأصالة</span>
+
+            <h1 data-i18n="about_page_title">
+                شركة السعادة <span>للمنتجات الغذائية</span>
+            </h1>
+
+            <p data-i18n="about_page_subtitle">مذاق من التراث، وجودة تجمع الأجيال</p>
+
+            <div class="about-hero-divider"></div>
         </div>
     </section>
 
-    <section class="about-story section-padding">
+    <!-- Story and video -->
+    <section class="about-section about-story-section">
         <div class="container">
-            <div class="about-grid">
-                <div class="about-text-content" data-aos="fade-left">
-                    <h3 data-i18n="story_title" class="text-primary mb-4">موثوقة عبر الأجيال</h3>
-                    <p data-i18n="story_p1">موثوقة عبر الأجيال لجودتها العالية، السعادة® تجلب إلى الذهن أوقات الوجبات العائلية التي لا تنسى والوصفات المنزلية الشهية. منذ تأسيسها، قدمت السعادة مجموعة متنوعة من المنتجات التي تعزز طريقة تحضير الطعام ومذاقه لتكمل الطريقة التي تطهو بها وأطباقك المفضلة.</p>
+            <div class="about-section-heading" data-aos="fade-up">
+                <span class="eyebrow" data-i18n="story_eyebrow">قصتنا</span>
+                <h2 data-i18n="story_section_heading">نكهة الأصالة في كل منتج</h2>
+                <p data-i18n="story_section_desc">
+                    سنوات من الخبرة والشغف لتقديم منتجات غذائية تثق بها العائلة.
+                </p>
+            </div>
+
+            <div class="about-story-grid">
+                <div class="about-story-card" data-aos="fade-left">
+                    <span class="story-label" data-i18n="story_label">موثوقة عبر الأجيال</span>
+
+                    <h2 data-i18n="story_title">موثوقة عبر الأجيال</h2>
+
+                    <p data-i18n="story_p1">
+                        موثوقة عبر الأجيال لجودتها العالية، السعادة® تجلب إلى الذهن
+                        أوقات الوجبات العائلية التي لا تنسى والوصفات المنزلية الشهية.
+                        منذ تأسيسها، قدمت السعادة مجموعة متنوعة من المنتجات التي
+                        تعزز طريقة تحضير الطعام ومذاقه لتكمل الطريقة التي تطهو بها
+                        وأطباقك المفضلة.
+                    </p>
+
+                    <div class="story-decoration"></div>
                 </div>
-                <div class="about-video-wrapper" data-aos="fade-right">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/PbiPEZiACbw?si=1se8QbBNvokcqOht" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                </div>
-            </div>
-        </div>
-    </section>
 
-    <section class="about-expansion bg-light section-padding">
-        <div class="container">
-            <div class="about-grid reverse-grid">
-                <div class="about-image-wrapper" data-aos="fade-left">
-                    <img src="images/about.jpg" alt="Al Saadah Factory" class="rounded-img shadow-lg" style="width: 100%; border-radius: 12px;">
-                </div>
-                <div class="about-text-content" data-aos="fade-right">
-                    <h3 data-i18n="expansion_title" class="text-primary mb-4">من قلب الغوطة الدمشقية إلى العالم</h3>
-                    <p data-i18n="expansion_p1">وفرة وجودة المواد الغذائية التي تذخر بها أرضنا الشامية المباركة وخبرة أجدادنا في صناعة المنتجات الغذائية، كانت انطلاقة لشركتنا في عام 1984 م في قلب الغوطة الدمشقية بالأصناف المحددة كالمربيات والقمر الدين.</p>
-                    <p data-i18n="expansion_p2">التحديات دفعتنا للاستمرار في العمل في وطننا مع ضرورة التوسع في الشرق الأوسط الذي كان بإنشاء مصنع في القاهرة للاستفادة من وفرة الخيرات الزراعية وتقديمها للأسواق الجديدة.</p>
+                <div class="about-video-card" data-aos="fade-right">
+                    <iframe
+                        class="about-video-frame"
+                        src="https://www.youtube.com/embed/PbiPEZiACbw"
+                        title="فيديو شركة السعادة للمنتجات الغذائية"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="mission-goals section-padding text-center">
+    <!-- Company history -->
+    <section class="about-section about-expansion-section">
         <div class="container">
-            <div class="mission-box mb-5" data-aos="zoom-in">
-                <h3 data-i18n="mission_title" class="text-secondary">المهمة</h3>
-                <p data-i18n="mission_desc" class="lead-text">المثابرة للوصول لمنتج غذائي صحي وشهي بالطعم والجودة التي تتميز بها محاصيلنا والخبرة الصناعية التي ورثناها عن أجدادنا، لتقديمه إلى عملائنا، وفق أفضل المعايير العالمية.</p>
-            </div>
-            
-            <h3 data-i18n="goals_title" class="text-primary mb-4 mt-5" data-aos="fade-up">الأهداف</h3>
-            <div class="goals-grid">
-                <div class="goal-card" data-aos="fade-up" data-aos-delay="100"><div class="goal-icon">🛡️</div><h4 data-i18n="goal_1">"صحتكم أمانة في أعناقنا"</h4></div>
-                <div class="goal-card" data-aos="fade-up" data-aos-delay="200"><div class="goal-icon">❤️</div><h4 data-i18n="goal_2">"رضاكم ما نسعى إليه"</h4></div>
-                <div class="goal-card" data-aos="fade-up" data-aos-delay="300"><div class="goal-icon">🌟</div><h4 data-i18n="goal_3">"وثقتكم نجاحنا"</h4></div>
+            <div class="about-expansion-grid">
+                <div class="about-factory-image" data-aos="fade-left">
+                    <img
+                        src="images/about.jpg"
+                        alt="مصنع شركة السعادة للمنتجات الغذائية"
+                        loading="lazy">
+                </div>
+
+                <div class="about-expansion-copy" data-aos="fade-right">
+                    <div class="about-section-heading" style="text-align:start;margin:0 0 25px;">
+                        <span class="eyebrow" data-i18n="expansion_eyebrow">رحلة من الشام إلى العالم</span>
+                        <h2 data-i18n="expansion_title">
+                            من قلب الغوطة الدمشقية إلى العالم
+                        </h2>
+                    </div>
+
+                    <p data-i18n="expansion_p1">
+                        وفرة وجودة المواد الغذائية التي تذخر بها أرضنا الشامية المباركة
+                        وخبرة أجدادنا في صناعة المنتجات الغذائية، كانت انطلاقة لشركتنا
+                        في عام 1984 م في قلب الغوطة الدمشقية بالأصناف المحددة كالمربيات
+                        والقمر الدين.
+                    </p>
+
+                    <p data-i18n="expansion_p2">
+                        التحديات دفعتنا للاستمرار في العمل في وطننا مع ضرورة التوسع
+                        في الشرق الأوسط الذي كان بإنشاء مصنع في القاهرة للاستفادة
+                        من وفرة الخيرات الزراعية وتقديمها للأسواق الجديدة.
+                    </p>
+
+                    <div class="about-history-note">
+                        <span class="about-year">1984</span>
+                        <p data-i18n="history_note">
+                            بداية رحلة من الخبرة والتراث والجودة في عالم المنتجات الغذائية.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="about-products-list bg-light section-padding" data-aos="fade-up">
+    <!-- Mission and goals -->
+    <section class="about-section about-mission-section">
         <div class="container">
-            <div class="section-title">
-                <h3 data-i18n="full_products_title">قائمة منتجاتنا</h3>
-                <p data-i18n="full_products_desc">الآن نقدم مجموعة متكاملة من المنتجات تكمل احتياجات المستهلك لدينا وسنستمر في تطوير منتجات جديدة.</p>
+            <div class="about-section-heading" data-aos="fade-up">
+                <span class="eyebrow" data-i18n="mission_eyebrow">ما الذي يحركنا؟</span>
+                <h2 data-i18n="mission_section_heading">قيمنا هي أساس نجاحنا</h2>
+                <p data-i18n="mission_section_desc">
+                    نعمل كل يوم لنقدم لعملائنا جودة يستحقونها وثقة تستمر.
+                </p>
             </div>
-            <ul class="multi-column-list">
+
+            <div class="about-mission-card" data-aos="zoom-in">
+                <div class="about-mission-icon">🌱</div>
+
+                <h3 data-i18n="mission_title">المهمة</h3>
+
+                <p data-i18n="mission_desc">
+                    المثابرة للوصول لمنتج غذائي صحي وشهي بالطعم والجودة التي تتميز
+                    بها محاصيلنا والخبرة الصناعية التي ورثناها عن أجدادنا، لتقديمه
+                    إلى عملائنا، وفق أفضل المعايير العالمية.
+                </p>
+            </div>
+
+            <h3 class="about-goals-title" style="text-align:center;" data-aos="fade-up" data-i18n="goals_title">
+                الأهداف
+            </h3>
+
+            <div class="about-goals-grid">
+                <div class="about-goal-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="about-goal-icon">🛡️</div>
+                    <h4 data-i18n="goal_1">صحتكم أمانة في أعناقنا</h4>
+                </div>
+
+                <div class="about-goal-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="about-goal-icon">❤️</div>
+                    <h4 data-i18n="goal_2">رضاكم ما نسعى إليه</h4>
+                </div>
+
+                <div class="about-goal-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="about-goal-icon">🌟</div>
+                    <h4 data-i18n="goal_3">وثقتكم نجاحنا</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product categories -->
+    <section class="about-section about-products-section">
+        <div class="container">
+            <div class="about-section-heading" data-aos="fade-up">
+                <span class="eyebrow" data-i18n="products_eyebrow">منتجاتنا</span>
+                <h2 data-i18n="full_products_title">قائمة منتجاتنا</h2>
+                <p data-i18n="full_products_desc">
+                    الآن نقدم مجموعة متكاملة من المنتجات تكمل احتياجات المستهلك
+                    لدينا وسنستمر في تطوير منتجات جديدة.
+                </p>
+            </div>
+
+            <ul class="about-categories-grid">
                 <?php foreach ($categories as $cat): ?>
-                    <li><span class="lang-ar"><?= htmlspecialchars($cat['name_ar']) ?></span><span class="lang-en"><?= htmlspecialchars($cat['name_en']) ?></span></li>
+                    <li class="about-category-item" data-aos="fade-up">
+                        <span class="about-category-icon" aria-hidden="true">✓</span>
+
+                        <span class="about-category-name">
+                            <span class="lang-ar">
+                                <?= htmlspecialchars($cat['name_ar'] ?? '', ENT_QUOTES, 'UTF-8') ?>
+                            </span>
+                            <span class="lang-en">
+                                <?= htmlspecialchars($cat['name_en'] ?? '', ENT_QUOTES, 'UTF-8') ?>
+                            </span>
+                        </span>
+                    </li>
                 <?php endforeach; ?>
             </ul>
         </div>
     </section>
 
     <?php include 'footer.php'; ?>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/about.js" defer></script>
 </body>
 </html>
