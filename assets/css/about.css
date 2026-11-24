@@ -126,7 +126,6 @@
 
         .about-hero {
             min-height: 410px;
-            margin-top: 80px;
             position: relative;
             isolation: isolate;
             display: flex;
