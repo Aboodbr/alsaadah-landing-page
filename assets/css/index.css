@@ -226,3 +226,6 @@
 .neo-veggie-field .produce-shape:nth-child(5){display:block}
 @media(max-width:760px){.neo-veggie-field .produce-shape{width:48px;height:58px;filter:drop-shadow(0 10px 7px rgba(3,32,12,.32));}.neo-veggie-field .shape-5,.neo-veggie-field .shape-7,.neo-veggie-field .shape-8{display:none}.neo-veggie-field .shape-1{width:45px;height:45px}.neo-veggie-field .shape-3{width:45px;height:45px}.neo-veggie-field .shape-4{height:72px}.neo-veggie-field .shape-6{height:65px}}
 @media(prefers-reduced-motion:reduce){.neo-veggie-field .produce-shape{animation:none!important}}
+
+/* Fix doubled arrows on category cards: only the outer link text gets the arrow */
+.neo-category-content h3 span:after,.neo-category-content span span:after{content:none}
