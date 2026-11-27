@@ -33,7 +33,7 @@ $products = $stmtProds->fetchAll();
     <section class="page-header" style="background-image: linear-gradient(rgba(15, 76, 35, 0.9), rgba(15, 76, 35, 0.9)), url('images/banners/slider1.jpg'); background-size: cover; background-position: center; padding: 6rem 0; " data-aos="fade-down">
         <div class="container text-center">
             <h2 data-i18n="products_page_title" style="color: var(--clr-accent); font-size: 3rem; margin-bottom: 1rem;">منتجاتنا</h2>
-            <p data-i18n="products_page_desc" style="color: #f7f8f4; font-size: 1.2rem; max-width: 600px; margin: 0 auto; opacity: 0.95;">اكتشف مجموعتنا الواسعة من المنتجات الغذائية الفاخرة المصنوعة بعناية لتناسب ذوقك.</p>
+            <p data-i18n="products_page_desc" style="color: #f7f8f4; font-size: 1.2rem; max-width: 600px; margin: 0 auto; opacity: 0.95;">اكتشف تشكيلتنا الواسعة، أصناف نصنعها بعناية لتناسب كل مائدة وكل ذوق.</p>
         </div>
     </section>
 
