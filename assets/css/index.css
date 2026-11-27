@@ -31,29 +31,44 @@
 .neo-story{background-image:radial-gradient(ellipse at 15% 25%,rgba(201,164,92,.14),transparent 28%),radial-gradient(ellipse at 85% 75%,rgba(255,255,255,.09),transparent 32%),linear-gradient(135deg,#0F4C23,#123f22)!important;}
 .neo-section,.neo-numbers,.neo-cta-section{position:relative;isolation:isolate;overflow:hidden;}
 .neo-section>.container,.neo-numbers>.container,.neo-cta-section>.container{position:relative;z-index:2;}
-.neo-veggie-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1;perspective:900px;}
-.neo-veggie-field span{position:absolute;display:block;font-size:clamp(3.8rem,7vw,6.8rem);line-height:1;opacity:.96;filter:drop-shadow(0 18px 13px rgba(15,45,20,.32));transform-style:preserve-3d;will-change:transform;animation:veggieFlight var(--duration,13s) ease-in-out infinite;animation-delay:var(--delay,0s);user-select:none;}
-.neo-veggie-field span:nth-child(1){top:8%;left:4%;--duration:10s;--delay:-3s}
-.neo-veggie-field span:nth-child(2){top:57%;left:15%;--duration:12s;--delay:-8s;font-size:clamp(3.2rem,6vw,5.6rem)}
-.neo-veggie-field span:nth-child(3){top:20%;right:5%;--duration:11s;--delay:-6s}
-.neo-veggie-field span:nth-child(4){top:68%;right:9%;--duration:13s;--delay:-10s;font-size:clamp(3.4rem,6vw,6rem)}
-.neo-veggie-field span:nth-child(5){top:42%;left:47%;--duration:14s;--delay:-4s;font-size:clamp(3rem,5vw,4.8rem);opacity:.9}
-.neo-veggie-field span:nth-child(6){top:10%;right:34%;--duration:12s;--delay:-2s;font-size:clamp(3rem,5vw,4.8rem)}
-.neo-veggie-field span:nth-child(7){bottom:6%;left:38%;--duration:15s;--delay:-7s;font-size:clamp(3.2rem,6vw,5.8rem)}
-.neo-veggie-field span:nth-child(8){top:38%;right:24%;--duration:13s;--delay:-5s;font-size:clamp(2.8rem,5vw,4.6rem)}
-.neo-story .neo-veggie-field span{opacity:.9;filter:drop-shadow(0 18px 18px rgba(0,0,0,.28))}
-@keyframes veggieFlight{0%,100%{transform:translate3d(0,0,0) rotateX(0deg) rotateY(0deg) rotateZ(-12deg) scale(.94)}25%{transform:translate3d(24px,-28px,65px) rotateX(24deg) rotateY(-22deg) rotateZ(12deg) scale(1.05)}50%{transform:translate3d(-8px,-54px,110px) rotateX(-15deg) rotateY(28deg) rotateZ(22deg) scale(1.1)}75%{transform:translate3d(-30px,-18px,35px) rotateX(18deg) rotateY(10deg) rotateZ(-18deg) scale(.98)}}
-@media(max-width:760px){.neo-veggie-field span{font-size:3.2rem;opacity:.88}.neo-veggie-field span:nth-child(5),.neo-veggie-field span:nth-child(7),.neo-veggie-field span:nth-child(8){display:none}.neo-categories,.neo-products,.neo-numbers,.neo-cta-section{background-image:radial-gradient(ellipse at 10% 15%,rgba(46,125,69,.1),transparent 34%),linear-gradient(135deg,rgba(247,248,244,.96),rgba(226,239,222,.78))!important;}}
-@media(prefers-reduced-motion:reduce){.neo-veggie-field span{animation:none!important;transform:none!important}}
+/* Floating produce: real photographic cut-outs on a transparent background.
+   Sprite images/ui/produce-sprite.webp holds 8 items in a 4x2 grid:
+   1 tomato, 2 green pepper, 3 orange, 4 eggplant, 5 broccoli, 6 avocado, 7 carrot, 8 apple. */
+.neo-veggie-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.neo-veggie-field .produce-shape{position:absolute;display:block;width:var(--w,88px);height:var(--w,88px);border:0!important;font-size:0;line-height:0;background-image:url(../../images/ui/produce-sprite.svg);background-repeat:no-repeat;background-size:400% 200%;opacity:var(--o,.58);filter:drop-shadow(0 14px 12px rgba(12,45,22,.18));transform-origin:50% 50%;animation:produceFloat var(--duration,22s) ease-in-out infinite;animation-delay:var(--delay,0s);will-change:transform}
+.neo-veggie-field .produce-shape:before,.neo-veggie-field .produce-shape:after{content:none!important}
+.neo-veggie-field .shape-1{background-position:0 0}
+.neo-veggie-field .shape-2{background-position:33.333% 0}
+.neo-veggie-field .shape-3{background-position:66.666% 0}
+.neo-veggie-field .shape-4{background-position:100% 0}
+.neo-veggie-field .shape-5{background-position:0 100%}
+.neo-veggie-field .shape-6{background-position:33.333% 100%}
+.neo-veggie-field .shape-7{background-position:66.666% 100%}
+.neo-veggie-field .shape-8{background-position:100% 100%}
+.neo-veggie-field .shape-1{top:7%;left:2.5%;--w:92px;--o:.6;--duration:24s;--delay:-3s}
+.neo-veggie-field .shape-2{bottom:9%;left:6%;--w:78px;--o:.55;--duration:28s;--delay:-11s}
+.neo-veggie-field .shape-3{top:4%;right:6%;--w:88px;--o:.55;--duration:26s;--delay:-7s}
+.neo-veggie-field .shape-4{bottom:5%;right:5%;--w:64px;--o:.5;--duration:30s;--delay:-15s}
+.neo-veggie-field .shape-5{display:none}
+.neo-veggie-field .shape-6{display:none}
+.neo-veggie-field .shape-7{display:none}
+.neo-veggie-field .shape-8{display:none}
+@keyframes produceFloat{0%,100%{transform:translate3d(0,0,0) rotate(-4deg)}33%{transform:translate3d(8px,-14px,0) rotate(3deg)}66%{transform:translate3d(-7px,-7px,0) rotate(-1deg)}}
+.neo-story .neo-veggie-field .produce-shape{--o:.5;filter:drop-shadow(0 16px 14px rgba(0,0,0,.35))}
+.neo-story .neo-veggie-field .shape-6{display:block;top:52%;right:30%;--w:56px;--o:.35}
+@media(max-width:1100px){.neo-veggie-field .shape-7,.neo-veggie-field .shape-8{display:none}}
+@media(max-width:760px){
+    .neo-veggie-field .produce-shape{--w:52px;--o:.4}
+    .neo-veggie-field .shape-1{--w:58px}
+    .neo-veggie-field .shape-2{--w:54px}
+    .neo-veggie-field .shape-3{--w:60px}
+    .neo-veggie-field .shape-3,.neo-veggie-field .shape-4{display:none}
+    .neo-categories,.neo-products,.neo-numbers,.neo-cta-section{background-image:radial-gradient(ellipse at 10% 15%,rgba(46,125,69,.1),transparent 34%),linear-gradient(135deg,rgba(247,248,244,.96),rgba(226,239,222,.78))!important}
+}
+@media(prefers-reduced-motion:reduce){.neo-veggie-field .produce-shape{animation:none!important}}
 
 
-/* Stronger, always-visible floating produce effect */
-.neo-veggie-field{z-index:1!important;overflow:hidden}
-.neo-veggie-field span{opacity:1!important;text-shadow:0 5px 2px rgba(255,255,255,.25);-webkit-text-stroke:.4px rgba(15,76,35,.12)}
-.neo-veggie-field span:nth-child(odd){animation-direction:alternate}
-.neo-veggie-field span:nth-child(even){animation-direction:alternate-reverse}
 .neo-categories,.neo-products,.neo-story,.neo-numbers,.neo-cta-section{background-color:#eaf4e7}
-@media(max-width:760px){.neo-veggie-field span{font-size:3.3rem!important;opacity:.95!important}}
 
 /* Category Images - Improved Display */
 .neo-category {
@@ -153,81 +168,16 @@
 .neo-products .neo-product-link{transition:color .25s}
 .neo-products .neo-product-link i{transition:background .25s,color .25s,transform .25s}
 
-/* Produce motion: slower, organic and decorative rather than arcade-like */
-.neo-veggie-field{perspective:700px!important}
-.neo-veggie-field span{
-    opacity:.24!important;
-    filter:drop-shadow(0 10px 12px rgba(20,55,25,.16)) saturate(.88)!important;
-    text-shadow:0 2px 3px rgba(255,255,255,.18);
-    -webkit-text-stroke:0!important;
-    animation:organicProduceDrift var(--duration,19s) ease-in-out infinite!important;
-    animation-delay:var(--delay,0s)!important;
-}
-.neo-veggie-field span:nth-child(1){--duration:21s;--delay:-4s}
-.neo-veggie-field span:nth-child(2){--duration:25s;--delay:-12s}
-.neo-veggie-field span:nth-child(3){--duration:23s;--delay:-8s}
-.neo-veggie-field span:nth-child(4){--duration:27s;--delay:-17s}
-.neo-veggie-field span:nth-child(5){--duration:22s;--delay:-6s}
-.neo-veggie-field span:nth-child(6){--duration:26s;--delay:-14s}
-.neo-veggie-field span:nth-child(7){--duration:24s;--delay:-10s}
-.neo-veggie-field span:nth-child(8){--duration:28s;--delay:-19s}
-@keyframes organicProduceDrift{
-    0%,100%{transform:translate3d(0,0,0) rotate(-5deg) scale(.98)}
-    28%{transform:translate3d(12px,-15px,0) rotate(2deg) scale(1.015)}
-    58%{transform:translate3d(-7px,-25px,0) rotate(6deg) scale(1.025)}
-    82%{transform:translate3d(-14px,-8px,0) rotate(-2deg) scale(1.005)}
-}
 @media(max-width:760px){
     .neo-products .neo-product-media{height:205px;padding:10px}
     .neo-products .neo-product-info{padding:15px}
-    .neo-veggie-field span{opacity:.16!important}
 }
 @media(prefers-reduced-motion:reduce){
-    .neo-veggie-field span{animation:none!important}
     .neo-products .neo-product,.neo-products .neo-product-media img{transition:none!important}
 }
 
 
-/* Solid 3D produce-inspired decorations — no emojis, no pale/transparent objects */
-.neo-veggie-field{z-index:1!important;overflow:hidden;pointer-events:none;perspective:1000px}
-.neo-veggie-field .produce-shape{
-  position:absolute;display:block;width:clamp(54px,7vw,105px);height:clamp(68px,8vw,118px);
-  opacity:1!important;filter:drop-shadow(0 18px 12px rgba(3,32,12,.34));
-  transform-style:preserve-3d;will-change:transform;animation:solidProduceFloat var(--duration,22s) ease-in-out infinite;
-  animation-delay:var(--delay,0s);border:2px solid rgba(18,55,19,.35);font-size:0!important;line-height:0;
-}
-.neo-veggie-field .produce-shape:before{content:"";position:absolute;display:block;z-index:2}
-.neo-veggie-field .produce-shape:after{content:"";position:absolute;display:block;z-index:1}
-/* tomato */
-.neo-veggie-field .shape-1{top:8%;left:4%;width:clamp(62px,7vw,100px);height:clamp(62px,7vw,100px);border-radius:48% 52% 49% 51%;background:radial-gradient(ellipse at 28% 22%,#ff8060 0%,#ed3e27 34%,#a91813 78%,#74120e 100%);box-shadow:inset -12px -14px 18px #78130f,inset 8px 7px 13px #ff9272,0 18px 24px #143d1b66;--duration:22s;--delay:-4s}
-.neo-veggie-field .shape-1:before{top:-10%;left:37%;width:29%;height:25%;background:#1f702e;clip-path:polygon(50% 0,62% 43%,100% 25%,72% 65%,93% 80%,52% 70%,30% 100%,31% 63%,0 48%,36% 43%);}
-/* green pepper */
-.neo-veggie-field .shape-2{top:57%;left:15%;width:clamp(60px,7vw,96px);height:clamp(76px,9vw,125px);border-radius:45% 48% 36% 40%;background:linear-gradient(105deg,#164f20 0%,#43a834 30%,#247923 62%,#0e3e1b 100%);box-shadow:inset 9px 0 14px #7bc84b,inset -12px -8px 18px #092f14;transform:rotate(-17deg);--duration:25s;--delay:-12s}
-.neo-veggie-field .shape-2:before{top:-9%;left:42%;width:18%;height:24%;border-radius:50% 50% 20% 20%;background:linear-gradient(90deg,#174d20,#72b848,#1b5b22)}
-/* orange */
-.neo-veggie-field .shape-3{top:20%;right:5%;width:clamp(60px,6.5vw,95px);height:clamp(60px,6.5vw,95px);border-radius:50%;background:radial-gradient(circle at 30% 25%,#ffd06a 0%,#ff8b19 32%,#e45108 70%,#9d2e04 100%);box-shadow:inset -10px -12px 16px #a83a06,inset 7px 6px 12px #ffe09a;--duration:23s;--delay:-8s}
-.neo-veggie-field .shape-3:before{top:-5%;left:47%;width:8%;height:12%;border-radius:8px;background:#2f6423}
-/* eggplant */
-.neo-veggie-field .shape-4{top:68%;right:9%;width:clamp(54px,6vw,88px);height:clamp(100px,10vw,145px);border-radius:55% 45% 48% 52%;background:linear-gradient(105deg,#29143f 0%,#6d3693 28%,#3f1c67 58%,#1a0d31 100%);box-shadow:inset 8px 0 12px #a16fc0,inset -12px -8px 18px #140820;transform:rotate(24deg);--duration:27s;--delay:-17s}
-.neo-veggie-field .shape-4:before{top:-7%;left:32%;width:42%;height:21%;background:#32782d;clip-path:polygon(45% 0,65% 40%,100% 18%,77% 66%,88% 100%,48% 74%,0 80%,25% 44%)}
-/* broccoli-inspired cluster */
-.neo-veggie-field .shape-5{top:42%;left:47%;width:clamp(74px,8vw,115px);height:clamp(74px,8vw,115px);border:0;border-radius:50%;background:radial-gradient(circle at 25% 25%,#9bd74e 0%,#3e9c2c 32%,#17652b 70%,#0a3b1d 100%);box-shadow:inset -12px -13px 16px #07391b,inset 8px 8px 15px #a5df56;--duration:22s;--delay:-6s}
-.neo-veggie-field .shape-5:before{left:34%;bottom:-30%;width:34%;height:48%;border-radius:25% 25% 35% 35%;background:linear-gradient(90deg,#246b2d,#83b83c,#1b5625)}
-.neo-veggie-field .shape-5:after{inset:-8% -10% 15% -8%;border-radius:45%;background:radial-gradient(circle at 20% 35%,#7fc93e 0 25%,transparent 27%),radial-gradient(circle at 55% 10%,#68b832 0 30%,transparent 32%),radial-gradient(circle at 82% 40%,#368e2a 0 25%,transparent 27%);}
-/* avocado */
-.neo-veggie-field .shape-6{top:10%;right:34%;width:clamp(62px,7vw,100px);height:clamp(88px,9vw,130px);border-radius:52% 48% 48% 48% / 36% 36% 64% 64%;background:linear-gradient(110deg,#254e18 0%,#5d9d31 28%,#2b7025 65%,#123e19 100%);box-shadow:inset 9px 0 14px #9cc94c,inset -12px -9px 17px #0b3214;transform:rotate(-18deg);--duration:26s;--delay:-14s}
-.neo-veggie-field .shape-6:before{left:27%;top:48%;width:47%;height:40%;border-radius:50%;background:radial-gradient(circle at 30% 25%,#c77c3b,#87431d 70%,#4e250f);box-shadow:inset -5px -6px 8px #54260f}
-/* carrot */
-.neo-veggie-field .shape-7{bottom:6%;left:38%;width:clamp(42px,4.5vw,66px);height:clamp(110px,12vw,165px);border:0;border-radius:55% 45% 50% 50% / 10% 10% 90% 90%;background:linear-gradient(90deg,#a93e0a 0%,#ff7b18 28%,#ff9b2b 52%,#d44a0b 100%);box-shadow:inset 7px 0 10px #ffb044,inset -8px -6px 12px #9e3106;transform:rotate(25deg);--duration:24s;--delay:-10s}
-.neo-veggie-field .shape-7:before{top:-12%;left:27%;width:46%;height:20%;background:#286e2b;clip-path:polygon(50% 100%,0 0,42% 32%,48% 0,65% 34%,100% 8%,73% 100%)}
-/* red apple */
-.neo-veggie-field .shape-8{top:38%;right:24%;width:clamp(62px,7vw,98px);height:clamp(68px,7.5vw,108px);border-radius:46% 46% 50% 50%;background:radial-gradient(ellipse at 28% 24%,#ff6e51 0%,#d91f25 38%,#9d101b 75%,#5c0a13 100%);box-shadow:inset -12px -13px 18px #640b16,inset 8px 6px 13px #ff8a65;--duration:28s;--delay:-19s}
-.neo-veggie-field .shape-8:before{top:-12%;left:48%;width:11%;height:22%;border-radius:100% 0 100% 0;background:linear-gradient(90deg,#28672c,#7ebd43);transform:rotate(24deg)}
-@keyframes solidProduceFloat{0%,100%{translate:0 0;rotate:-4deg;scale:.97}28%{translate:12px -16px;rotate:2deg;scale:1.02}58%{translate:-8px -27px;rotate:6deg;scale:1.04}82%{translate:-13px -8px;rotate:-2deg;scale:1}}
-.neo-story .neo-veggie-field .produce-shape{filter:drop-shadow(0 18px 12px rgba(0,0,0,.4))}
-.neo-veggie-field .produce-shape:nth-child(5){display:block}
-@media(max-width:760px){.neo-veggie-field .produce-shape{width:48px;height:58px;filter:drop-shadow(0 10px 7px rgba(3,32,12,.32));}.neo-veggie-field .shape-5,.neo-veggie-field .shape-7,.neo-veggie-field .shape-8{display:none}.neo-veggie-field .shape-1{width:45px;height:45px}.neo-veggie-field .shape-3{width:45px;height:45px}.neo-veggie-field .shape-4{height:72px}.neo-veggie-field .shape-6{height:65px}}
-@media(prefers-reduced-motion:reduce){.neo-veggie-field .produce-shape{animation:none!important}}
+
 
 /* Fix doubled arrows on category cards: only the outer link text gets the arrow */
 .neo-category-content h3 span:after,.neo-category-content span span:after{content:none}
