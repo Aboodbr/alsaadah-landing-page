@@ -1,0 +1,25 @@
+/* Hero option 4: Al Saadah jar lineup with a light floating motion */
+.hero-slider .hero-content{padding-bottom:clamp(120px,24vh,230px)}
+.hero-lineup{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;justify-content:center;align-items:flex-end;gap:clamp(6px,2vw,34px);padding:0 2vw;pointer-events:none;direction:ltr}
+.hero-lineup:before{content:'';position:absolute;left:8%;right:8%;bottom:0;height:34%;background:radial-gradient(ellipse at 50% 100%,rgba(201,164,92,.28),transparent 70%)}
+.hero-lineup img{position:relative;width:auto;height:var(--h,22vh);max-height:230px;object-fit:contain;filter:drop-shadow(0 18px 18px rgba(0,0,0,.4));animation:heroJarFloat var(--d,7s) ease-in-out infinite;animation-delay:var(--dl,0s);will-change:transform}
+.hero-lineup img:nth-child(1){--h:17vh;--d:7s;--dl:-1s}
+.hero-lineup img:nth-child(2){--h:22vh;--d:8s;--dl:-3s}
+.hero-lineup img:nth-child(3){--h:25vh;--d:9s;--dl:-5s}
+.hero-lineup img:nth-child(4){--h:22vh;--d:7.5s;--dl:-2s}
+.hero-lineup img:nth-child(5){--h:20vh;--d:8.5s;--dl:-4s}
+.hero-lineup img:nth-child(6){--h:17vh;--d:9.5s;--dl:-6s}
+.hero-slider>.neo-veggie-field{z-index:3}
+.hero-slider>.neo-veggie-field .shape-1{top:14%;left:3%;bottom:auto}
+.hero-slider>.neo-veggie-field .shape-2{top:auto;bottom:30%;left:8%}
+.hero-slider>.neo-veggie-field .shape-3{top:12%;right:5%}
+.hero-slider>.neo-veggie-field .shape-4{top:auto;bottom:32%;right:7%}
+@keyframes heroJarFloat{0%,100%{transform:translateY(0) rotate(-.6deg)}50%{transform:translateY(-12px) rotate(.8deg)}}
+@media(max-width:760px){
+ .hero-lineup{gap:4px}
+ .hero-lineup img:nth-child(1),.hero-lineup img:nth-child(2),.hero-lineup img:nth-child(6){display:none}
+ .hero-lineup img:nth-child(n){--h:15vh}
+ .hero-lineup img:nth-child(3){--h:18vh}
+ .hero-slider>.neo-veggie-field .produce-shape{--w:52px!important}
+}
+@media(prefers-reduced-motion:reduce){.hero-lineup img{animation:none}}
