@@ -33,7 +33,7 @@ $gallery_items = $stmtProds->fetchAll();
     <section class="page-header" style="background-image: linear-gradient(rgba(15, 76, 35, 0.85), rgba(15, 76, 35, 0.85)), url('images/banners/gallery-cover.jpg'); padding: 5rem 0; " data-aos="fade-down">
         <div class="container text-center">
             <h2 data-i18n="gallery_title" style="color: var(--clr-accent); font-size: 3rem;">معرض الصور</h2>
-            <p data-i18n="gallery_desc" style="color: white; font-size: 1.2rem;">رحلة بصرية عبر منتجاتنا الفاخرة.</p>
+            <p data-i18n="gallery_desc" style="color: white; font-size: 1.2rem;">لمحة من مطبخنا، أصناف تحكي عن عنايتنا بالتفاصيل.</p>
         </div>
     </section>
 
