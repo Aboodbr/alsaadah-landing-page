@@ -27,7 +27,7 @@
             font-size: 0;
             line-height: 0;
             opacity: 0.55;
-            background-image: url(../../images/ui/produce-sprite.webp);
+            background-image: url(../../images/ui/produce-sprite.svg);
             background-repeat: no-repeat;
             background-size: 400% 200%;
             filter: drop-shadow(0 15px 12px rgba(15, 45, 20, 0.2));
