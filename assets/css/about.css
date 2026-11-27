@@ -40,18 +40,37 @@
             direction: ltr;
         }
 
+        /* Real photographic produce cut-outs (sprite: images/ui/produce-sprite.webp, 4x2 grid) */
         .about-floating-food .food-item {
             position: absolute;
             bottom: -100px;
             left: var(--left);
-            font-size: var(--size);
-            opacity: var(--opacity);
-            filter: drop-shadow(0 5px 8px rgba(22, 75, 50, 0.08));
+            width: calc(var(--size) * 1.2);
+            height: calc(var(--size) * 1.2);
+            font-size: 0;
+            line-height: 0;
+            background-image: url(../../images/ui/produce-sprite.svg);
+            background-repeat: no-repeat;
+            background-size: 400% 200%;
+            opacity: 0.45;
+            filter: drop-shadow(0 5px 8px rgba(22, 75, 50, 0.10));
             animation: about-food-float var(--duration) linear infinite;
             animation-delay: var(--delay);
             will-change: transform;
             user-select: none;
         }
+        /* sprite cells: 1 tomato, 2 pepper, 3 orange, 4 eggplant, 5 broccoli, 6 avocado, 7 carrot, 8 apple */
+        .about-floating-food .food-item:nth-child(1) { background-position: 0 0; }
+        .about-floating-food .food-item:nth-child(2) { background-position: 66.666% 100%; }
+        .about-floating-food .food-item:nth-child(3) { background-position: 0 100%; }
+        .about-floating-food .food-item:nth-child(4) { background-position: 100% 100%; }
+        .about-floating-food .food-item:nth-child(5) { background-position: 33.333% 0; }
+        .about-floating-food .food-item:nth-child(6) { background-position: 66.666% 0; }
+        .about-floating-food .food-item:nth-child(7) { background-position: 33.333% 100%; }
+        .about-floating-food .food-item:nth-child(8) { background-position: 0 100%; }
+        .about-floating-food .food-item:nth-child(9) { background-position: 100% 100%; }
+        .about-floating-food .food-item:nth-child(10) { background-position: 100% 0; }
+        .about-floating-food .food-item:nth-child(11) { background-position: 66.666% 0; }
 
         @keyframes about-food-float {
             0% {
