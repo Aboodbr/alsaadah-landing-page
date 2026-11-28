@@ -161,6 +161,7 @@ $galleryJson = json_encode(
     <link rel="stylesheet" href="assets/css/styles.css">
 
     <link rel="stylesheet" href="assets/css/product-details.css">
+    <link rel="stylesheet" href="assets/css/jar-background.css">
 </head>
 
 <body>
