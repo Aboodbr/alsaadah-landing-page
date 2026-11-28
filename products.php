@@ -22,6 +22,7 @@ $products = $stmtProds->fetchAll();
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/products.css">
+    <link rel="stylesheet" href="assets/css/jar-background.css">
 </head>
 <body>
     <div id="preloader" style="position: fixed; inset: 0.0; background: #e7ece3; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease;">
