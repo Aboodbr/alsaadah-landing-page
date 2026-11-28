@@ -82,7 +82,7 @@ const translations = {
     expansion_title: "From the Heart of Damascus Ghouta to the World",
 
     expansion_p1:
-      "The abundance and quality of food from our blessed Levantine land, combined with our ancestors' expertise, created the foundation of our company.",
+      "The story began in the heart of Damascus Ghouta in 1990, with our ancestors' expertise and the bounty of the Levantine land. As demand grew, we opened our factory in Egypt to reach new markets, staying true to the same taste and the same standards.",
 
     expansion_p2:
       "Challenges drove us to continue working in our homeland while expanding across the Middle East.",
@@ -90,7 +90,7 @@ const translations = {
     mission_title: "Our Mission",
 
     mission_desc:
-      "Perseverance to reach a healthy and delicious food product with the taste and quality our crops are known for.",
+      "A healthy and delicious food product that combines the quality of our crops with industrial expertise inherited from our ancestors, reaching our customers to the best international standards.",
 
     goals_title: "Our Goals",
 
@@ -107,7 +107,7 @@ const translations = {
     products_page_title: "Our Products",
 
     products_page_desc:
-      "Discover our wide range of premium food products carefully crafted to suit your taste.",
+      "Discover our wide range, products we make with care to suit every table and every taste.",
 
     tbl_weight: "Weight",
     tbl_pack: "Packaging",
@@ -118,7 +118,7 @@ const translations = {
     gallery_title: "Image Gallery",
 
     gallery_desc:
-      "A visual journey through our premium products and precise manufacturing processes.",
+      "A glimpse of our kitchen, products that show how much we care about the details.",
 
     gal_products: "Products",
     gal_packaging: "Packaging",
@@ -237,7 +237,7 @@ const translations = {
     expansion_title: "من قلب الغوطة الدمشقية إلى العالم",
 
     expansion_p1:
-      "وفرة وجودة المواد الغذائية التي تذخر بها أرضنا الشامية المباركة وخبرة أجدادنا في صناعة المنتجات الغذائية كانت انطلاقة لشركتنا.",
+      "من قلب الغوطة الدمشقية بدأت الحكاية عام 1990، بخبرة الأجداد وخيرات الأرض الشامية. ومع نمو الطلب، فتحنا مصنعنا في مصر لنصل إلى أسواق جديدة، وبقينا أوفياء لنفس الطعم ونفس المعايير.",
 
     expansion_p2:
       "التحديات دفعتنا للاستمرار في العمل في وطننا مع ضرورة التوسع في الشرق الأوسط.",
@@ -245,7 +245,7 @@ const translations = {
     mission_title: "المهمة",
 
     mission_desc:
-      "المثابرة للوصول لمنتج غذائي صحي وشهي بالطعم والجودة التي تتميز بها محاصيلنا والخبرة الصناعية التي ورثناها عن أجدادنا.",
+      "منتج غذائي صحي وشهي، يجمع جودة محاصيلنا وخبرة صناعية ورثناها عن أجدادنا، ويصل إلى عملائنا وفق أفضل المعايير العالمية.",
 
     goals_title: "الأهداف",
 
@@ -262,7 +262,7 @@ const translations = {
     products_page_title: "منتجاتنا",
 
     products_page_desc:
-      "اكتشف مجموعتنا الواسعة من المنتجات الغذائية الفاخرة المصنوعة بعناية لتناسب ذوقك.",
+      "اكتشف تشكيلتنا الواسعة، أصناف نصنعها بعناية لتناسب كل مائدة وكل ذوق.",
 
     tbl_weight: "الوزن",
     tbl_pack: "العبوة",
@@ -272,7 +272,7 @@ const translations = {
     /* Gallery */
     gallery_title: "معرض الصور",
 
-    gallery_desc: "رحلة بصرية عبر منتجاتنا الفاخرة وعمليات التصنيع الدقيقة.",
+    gallery_desc: "لمحة من مطبخنا، أصناف تحكي عن عنايتنا بالتفاصيل.",
 
     gal_products: "المنتجات",
     gal_packaging: "التعبئة والتغليف",
@@ -980,17 +980,22 @@ document.addEventListener("DOMContentLoaded", () => {
    PRELOADER
    ========================================== */
 
-window.addEventListener("load", () => {
-  const preloader = document.getElementById("preloader");
-
-  if (!preloader) return;
-
-  preloader.style.opacity = "0";
-
-  setTimeout(() => {
-    preloader.style.display = "none";
-  }, 500);
-});
+(function () {
+  function hidePreloader() {
+    const preloader = document.getElementById("preloader");
+    if (!preloader || preloader.dataset.hidden) return;
+    preloader.dataset.hidden = "1";
+    preloader.style.opacity = "0";
+    preloader.style.pointerEvents = "none";
+    setTimeout(() => {
+      preloader.style.display = "none";
+    }, 300);
+  }
+  // Hide as soon as the DOM is ready; hard limit as a fallback.
+  document.addEventListener("DOMContentLoaded", hidePreloader);
+  window.addEventListener("load", hidePreloader);
+  setTimeout(hidePreloader, 1200);
+})();
 // تشغيل قائمة الجوال
 document.addEventListener("DOMContentLoaded", () => {
   const mobileMenuBtn = document.getElementById("mobileMenuBtn");
