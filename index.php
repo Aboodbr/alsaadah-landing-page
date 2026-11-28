@@ -49,9 +49,6 @@ $featured_products = $pdo->query("SELECT p.*, c.name_ar as cat_ar, c.name_en as 
             <?php endforeach; ?>
         </div>
         <div class="neo-veggie-field" aria-hidden="true"><span class="produce-shape shape-1"></span><span class="produce-shape shape-2"></span><span class="produce-shape shape-3"></span><span class="produce-shape shape-4"></span></div>
-        <div class="hero-lineup" aria-hidden="true">
-<i class="jar jar1"></i><i class="jar jar2"></i><i class="jar jar3"></i><i class="jar jar4"></i><i class="jar jar5"></i><i class="jar jar6"></i>
-        </div>
         <div class="slider-controls">
             <button class="prev-slide" id="nextSlide">&#10095;</button> 
             <button class="next-slide" id="prevSlide">&#10094;</button>
