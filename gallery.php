@@ -1,75 +1,92 @@
 <?php
-require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/app/Models/Category.php';
-require_once __DIR__ . '/app/Models/Product.php';
+require_once 'config/database.php';
 
-$categories = Category::getAll($pdo);
+$categories = $pdo->query("SELECT * FROM categories ORDER BY id ASC")->fetchAll();
+
+// جلب المنتجات مع اسم القسم لعرضه في تأثير الـ Hover
 $stmtProds = $pdo->query("
-    SELECT p.id, p.image_path, p.name_ar, p.name_en, c.name_ar as cat_ar, c.name_en as cat_en, c.slug as filter_category
+    SELECT p.image_path, p.name_ar, p.name_en, c.name_ar as cat_ar, c.name_en as cat_en, c.slug as filter_category 
     FROM products p 
     JOIN categories c ON p.category_id = c.id 
     WHERE p.image_path IS NOT NULL AND p.image_path != ''
 ");
 $gallery_items = $stmtProds->fetchAll();
-
-$pageTitle = 'Front | من عالمنا - المعرض';
-$activeNav = 'gallery';
-
-$pageHeaderTitleAr = 'معرض المنتجات والصور';
-$pageHeaderTitleEn = 'Our Visual Gallery';
-$pageHeaderDescAr = 'جولة بصرية بين تشكيلة منتجاتنا المتنوعة وجودتها الاستثنائية.';
-$pageHeaderDescEn = 'A visual tour through our diverse range of exceptional products.';
-
-include_once __DIR__ . '/resources/views/layouts/header.php';
-include_once __DIR__ . '/resources/views/layouts/page-header.php';
 ?>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php require_once __DIR__ . '/includes/seo.php'; render_seo('معرض الصور | شركة السعادة للمنتجات الغذائية', 'صور من عالم السعادة: منتجاتنا الغذائية ومصانعنا في سوريا ومصر.', 'gallery.php'); ?>
+    <link rel="icon" type="image/png" href="images/ui/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div id="preloader" style="position: fixed; inset: 0; background: var(--clr-bg); z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease;">
+        <img src="images/ui/logo.png" alt="Loading" style="width: 150px; animation: pulse-green 1.5s infinite;">
+    </div>
 
-<section class="neo-section">
-    <div class="neo-veggie-field" aria-hidden="true"><span>🥕</span><span>🥦</span><span>🍅</span><span>🫑</span><span>🥬</span><span>🌽</span><span>🍆</span><span>🥑</span></div>
-    <div class="container">
-        <!-- Category Filter Pills -->
-        <div class="neo-filter-wrap neo-reveal">
-            <button class="neo-filter-btn active" data-filter="all">
-                <span class="lang-ar">الكل</span>
-                <span class="lang-en">All</span>
-            </button>
-            <?php foreach ($categories as $cat): ?>
-                <button class="neo-filter-btn" data-filter="<?= htmlspecialchars($cat['slug']) ?>">
-                    <span class="lang-ar"><?= htmlspecialchars($cat['name_ar']) ?></span>
-                    <span class="lang-en"><?= htmlspecialchars($cat['name_en']) ?></span>
-                </button>
-            <?php endforeach; ?>
+    <?php $current_page = 'gallery'; include 'header.php'; ?>
+
+    <section class="page-header" style="background-image: linear-gradient(rgba(15, 76, 35, 0.85), rgba(15, 76, 35, 0.85)), url('images/banners/gallery-cover.jpg'); padding: 5rem 0; " data-aos="fade-down">
+        <div class="container text-center">
+            <h2 data-i18n="gallery_title" style="color: var(--clr-accent); font-size: 3rem;">معرض الصور</h2>
+            <p data-i18n="gallery_desc" style="color: white; font-size: 1.2rem;">لمحة من مطبخنا، أصناف تحكي عن عنايتنا بالتفاصيل.</p>
         </div>
+    </section>
 
-        <!-- Gallery Grid -->
-        <div class="neo-product-grid" id="galleryGrid">
-            <?php foreach ($gallery_items as $index => $item): ?>
-                <div class="neo-product neo-reveal" data-category="<?= htmlspecialchars($item['filter_category']) ?>" data-lightbox-src="<?= htmlspecialchars($item['image_path']) ?>" style="cursor: pointer; transition-delay: <?= min($index * 50, 300) ?>ms;">
-                    <div class="neo-product-media">
-                        <span class="neo-product-badge">
+    <section class="gallery-section section-padding bg-light">
+        <div class="container">
+          
+
+            <!-- Premium Masonry Grid -->
+            <div class="masonry-grid" id="galleryWrapper">
+                <?php foreach ($gallery_items as $index => $item): ?>
+                <!-- إضافة مكتبة AOS للظهور المتدرج، وتجهيز العنصر للـ 3D Tilt -->
+                <div class="masonry-item" data-category="<?= htmlspecialchars($item['filter_category']) ?>" data-aos="fade-up" data-aos-delay="<?= ($index % 4) * 50 ?>">
+                    
+                    <!-- تمت إضافة loading="lazy" هنا -->
+                    <img loading="lazy" decoding="async" src="<?= htmlspecialchars($item['image_path']) ?>" alt="<?= htmlspecialchars($item['name_ar']) ?>" loading="lazy">
+                    
+                    <!-- Glassmorphism Overlay -->
+                    <div class="masonry-overlay">
+                        <span class="masonry-cat">
                             <span class="lang-ar"><?= htmlspecialchars($item['cat_ar']) ?></span>
                             <span class="lang-en"><?= htmlspecialchars($item['cat_en']) ?></span>
                         </span>
-                        <img src="<?= htmlspecialchars($item['image_path']) ?>" alt="<?= htmlspecialchars($item['name_ar']) ?>" loading="lazy">
-                    </div>
-                    <div class="neo-product-info" style="padding: 16px;">
-                        <h3 style="font-size: 1.1rem; margin: 0; text-align: center;">
+                        
+                        <h4 class="masonry-title">
                             <span class="lang-ar"><?= htmlspecialchars($item['name_ar']) ?></span>
                             <span class="lang-en"><?= htmlspecialchars($item['name_en']) ?></span>
-                        </h3>
+                        </h4>
+                        
+                        <div class="masonry-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                <line x1="11" y1="8" x2="11" y2="14"></line>
+                                <line x1="8" y1="11" x2="14" y2="11"></line>
+                            </svg>
+                        </div>
                     </div>
+
                 </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Reusable Lightbox Modal -->
-<div class="neo-lightbox" id="neoLightbox">
-    <button class="neo-lightbox-close" id="neoLightboxClose" type="button" aria-label="Close">&times;</button>
-    <div class="neo-lightbox-content">
-        <img id="neoLightboxImg" src="" alt="Enlarged View">
+    <!-- Lightbox (النافذة المنبثقة) -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img loading="lazy" decoding="async" class="lightbox-img" id="lightbox-img" src="">
+        <div id="lightbox-caption" class="lightbox-caption"></div>
     </div>
-</div>
 
-<?php include_once __DIR__ . '/resources/views/layouts/footer.php'; ?>
+    <?php include 'footer.php'; ?>
+    
+    <!-- مكتبة 3D Tilt خفيفة الوزن -->
+</body>
+</html>
