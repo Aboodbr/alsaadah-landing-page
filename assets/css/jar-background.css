@@ -32,6 +32,15 @@
 .neo-story .neo-veggie-field span:nth-child(2){background-image:var(--jar-mustard)!important;--r:180deg}
 .neo-story .neo-veggie-field span:nth-child(3){background-image:var(--jar-bbq)!important;--r:12deg}
 .neo-story .neo-veggie-field span:nth-child(4){background-image:var(--jar-oil)!important;--r:-8deg}
+/* stats section and contact section on the home page */
+.neo-numbers .neo-veggie-field span:nth-child(1){background-image:var(--jar-hot)!important;--r:20deg}
+.neo-numbers .neo-veggie-field span:nth-child(2){background-image:var(--jar-mayo)!important;--r:-26deg}
+.neo-numbers .neo-veggie-field span:nth-child(3){background-image:var(--jar-pom)!important;--r:180deg}
+.neo-numbers .neo-veggie-field span:nth-child(4){background-image:var(--jar-vinegar)!important;--r:14deg}
+.neo-cta-section .neo-veggie-field span:nth-child(1){background-image:var(--jar-pepper)!important;--r:-14deg}
+.neo-cta-section .neo-veggie-field span:nth-child(2){background-image:var(--jar-ketchup)!important;--r:24deg}
+.neo-cta-section .neo-veggie-field span:nth-child(3){background-image:var(--jar-rose)!important;--r:180deg}
+.neo-cta-section .neo-veggie-field span:nth-child(4){background-image:var(--jar-blossom)!important;--r:-30deg}
 .products-section .neo-veggie-field span:nth-child(1){background-image:var(--jar-pepper)!important;--r:-18deg}
 .products-section .neo-veggie-field span:nth-child(2){background-image:var(--jar-bbq)!important;--r:24deg}
 .products-section .neo-veggie-field span:nth-child(3){background-image:var(--jar-mayo)!important;--r:180deg}
