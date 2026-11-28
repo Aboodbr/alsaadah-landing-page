@@ -1,0 +1,51 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+    background: var(--neo-cream);
+    font-family: 'Tajawal', sans-serif;
+    color: var(--neo-ink);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--neo-transition);
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+.container {
+    width: min(1220px, calc(100% - 40px));
+    margin-inline: auto;
+}
+
+.lang-en {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Language switching toggle helper */
+[dir="rtl"] .lang-en {
+    display: none !important;
+}
+
+[dir="ltr"] .lang-ar {
+    display: none !important;
+}
+
+.neo-topline {
+    height: 5px;
+    background: linear-gradient(90deg, var(--neo-green), var(--neo-accent), var(--neo-green));
+}
