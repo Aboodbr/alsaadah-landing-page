@@ -18,7 +18,7 @@ $featured_products = $pdo->query("SELECT p.*, c.name_ar as cat_ar, c.name_en as 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
 <link rel="stylesheet" href="assets/css/index.css">
-<link rel="stylesheet" href="assets/css/hero-lineup.css">
+<link rel="stylesheet" href="assets/css/jar-background.css">
 </head>
 <body>
 <?php $current_page = 'home'; include 'header.php'; ?>
@@ -48,7 +48,6 @@ $featured_products = $pdo->query("SELECT p.*, c.name_ar as cat_ar, c.name_en as 
             </div>
             <?php endforeach; ?>
         </div>
-        <div class="neo-veggie-field" aria-hidden="true"><span class="produce-shape shape-1"></span><span class="produce-shape shape-2"></span><span class="produce-shape shape-3"></span><span class="produce-shape shape-4"></span></div>
         <div class="slider-controls">
             <button class="prev-slide" id="nextSlide">&#10095;</button> 
             <button class="next-slide" id="prevSlide">&#10094;</button>
