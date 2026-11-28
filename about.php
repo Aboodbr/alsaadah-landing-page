@@ -22,6 +22,7 @@ $categories = $pdo->query(
     <link rel="stylesheet" href="assets/css/styles.css">
 
     <link rel="stylesheet" href="assets/css/about.css">
+    <link rel="stylesheet" href="assets/css/jar-background.css">
 </head>
 
 <body>
